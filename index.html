@@ -12,7 +12,7 @@
   <title>Annie Cherkaev's Rockin Site</title>
   <!-- CSS -->
   <link rel="stylesheet" type="text/css" href="css/site_global.css?461660015"/>
-  <link rel="stylesheet" type="text/css" href="css/index.css?4108557380" id="pagesheet"/>
+  <link rel="stylesheet" type="text/css" href="css/index.css?3917764942" id="pagesheet"/>
   <!-- Other scripts -->
   <script type="text/javascript">
    document.documentElement.className += ' js';
@@ -20,10 +20,10 @@ var __adobewebfontsappname__ = "muse";
 </script>
   <!-- JS includes -->
   <script type="text/javascript">
-   document.write('\x3Cscript src="' + (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//webfonts.creativecloud.com/allura:n4:default;pt-serif:n4,i4:default.js" type="text/javascript">\x3C/script>');
+   document.write('\x3Cscript src="' + (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//webfonts.creativecloud.com/pt-serif:n4,i4:default;allura:n4:default.js" type="text/javascript">\x3C/script>');
 </script>
   <script type="text/javascript">
-   document.write('\x3Cscript src="' + (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//use.typekit.net/ik/IwLPunoPPGjh8diHtZY2nacAXYldBdbBXbHJWIo_huSfe7tgfJejiUJGwQquwRSh5mvUFRMUjQyKZRJXjcIUjR6kFDyqFhItFDgRwhs85QmRFyG8jAo0-AmR-emk-hB8iKoRdhXCHKoydcoTZAFGZW4njAmhOcFzdPJPdemyZam8OWFRSc83ifu0dkXUJ6ikjAU8ihBoH6qJNBbbMg6IJMJ7f6KjqMIbMs6YJMJ7f6K-qMIbMs6BJMJ7f6KUCbIbMs6eJM4HgIuuShAbMdfdr_MB.js" type="text/javascript">\x3C/script>');
+   document.write('\x3Cscript src="' + (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//use.typekit.net/ik/TbeEmoYBAdq0SkLnaovT0iph4xixzKfHrG7gBakWB4qfeCCgfJejiUJGwQquwRSh5mvUFRMUjQyKZRJXjcIUjR6kFDyqFhItFDgRwhs85QmRFyG8jAo0-AmR-emk-hB8iKoRdhXCHKoydcoTZAFGZW4njAmhOcFzdPJVShNuScF8OAFzZe9lSY4zJy4CZAB1iA9lShFk-WgXOAozOQIKga4ydemajWq7f6K0KMIbMg6IJMJ7fbRXmgMgeMb6MKGHf4KbMsMfeMS6MKGHf47bMsMfeM96MKGHfOeUMsMfeMj6MqGIQWmDZZMgzED_CM9.js" type="text/javascript">\x3C/script>');
 </script>
   <!-- Other scripts -->
   <script type="text/javascript">
@@ -299,40 +299,35 @@ var __adobewebfontsappname__ = "muse";
     <div class="clearfix colelem" id="u168-4"><!-- content -->
      <p>Parsing</p>
     </div>
-    <div class="clearfix colelem" id="pu423-49"><!-- group -->
-     <div class="clearfix grpelem" id="u423-49"><!-- content -->
-      <p>Parsing comes next in the compilation pipeline- the parser takes a stream of tokens (produced by the lexer) and outputs an abstract syntax tree. Our AST matched Python's <a class="nonblock" href="https://docs.python.org/3/library/ast.html">specified documentation</a>.</p>
-      <p>&nbsp;</p>
-      <p>The AST is just a specification of how different structures are nested in python, like that in &quot;a+b&quot;, the &quot;+&quot; is an operator which is nested under the binary expression &quot;a &lt;operator&gt; b&quot;.</p>
-      <p>&nbsp;</p>
-      <p>Lucky for me, Dr. Might provided a framework for us which parsed Python's <a class="nonblock" href="https://docs.python.org/3/reference/grammar.html">formal grammer</a> into a form that we can represent in racket. As an example, the formal grammer rule:</p>
-      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xor_expr: and_expr ('^' and_expr)*</p>
-      <p>becomes the racket-friendly expression:</p>
-      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (xor_expr (seq and_expr (rep (seq &quot;^&quot; and_expr))))</p>
-      <p>&nbsp;</p>
-      <p>We processed this racket representation of the python grammar to using Dr. Might's tool <a class="nonblock" href="http://matt.might.net/articles/regular-context-free-grammars/">derp</a>, and then some more of Dr. Might's framework used Racket's cfg parsing tools to a output valid python AST.</p>
-      <p>&nbsp;</p>
-      <p>I'm going to show my implementation of the same xor expression rule below, and it looks scary, but hear me out, I'll explain it below:</p>
-      <p>&nbsp;</p>
-      <p>&nbsp;</p>
-      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (xor_expr</p>
-      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ($--&gt; <span id="u423-35">(seq</span></p>
-      <p id="u423-38">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; and_expr</p>
-      <p id="u423-40">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (rep (seq ($--&gt; &quot;^&quot; 'BitXor) and_expr)))</p>
-      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="u423-42">(process-binops ($ 1) ($ 2))</span></p>
-      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ))</p>
-      <p>&nbsp;</p>
-      <p>&nbsp;</p>
-     </div>
-     <div class="grpelem" id="u464"><!-- simple frame --></div>
+    <div class="clearfix colelem" id="u423-48"><!-- content -->
+     <p id="u423-5">Parsing comes next in the compilation pipeline- the parser takes a stream of tokens (produced by the lexer) and outputs an abstract syntax tree. Our AST matched Python's <a class="nonblock" href="https://docs.python.org/3/library/ast.html">specified documentation</a>.</p>
+     <p id="u423-6">&nbsp;</p>
+     <p id="u423-8">The AST is just a specification of how different structures are nested in python, like that in &quot;a+b&quot;, the &quot;+&quot; is an operator which is nested under the binary expression &quot;a &lt;operator&gt; b&quot;.</p>
+     <p id="u423-9">&nbsp;</p>
+     <p id="u423-14">Lucky for me, Dr. Might provided a framework for us which parsed Python's <a class="nonblock" href="https://docs.python.org/3/reference/grammar.html">formal grammer</a> into a form that we can represent in racket. As an example, the formal grammer rule:</p>
+     <p id="u423-16">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xor_expr: and_expr ('^' and_expr)*</p>
+     <p id="u423-18">becomes the racket-friendly expression:</p>
+     <p id="u423-20">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (xor_expr (seq and_expr (rep (seq &quot;^&quot; and_expr))))</p>
+     <p id="u423-21">&nbsp;</p>
+     <p id="u423-26">We processed this racket representation of the python grammar to using Dr. Might's tool <a class="nonblock" href="http://matt.might.net/articles/regular-context-free-grammars/">derp</a>, and then some more of Dr. Might's framework used Racket's cfg parsing tools to a output valid python AST.</p>
+     <p id="u423-27">&nbsp;</p>
+     <p id="u423-29">I'm going to show my implementation of the same xor expression rule below, and it looks scary, but hear me out, I'll explain it below:</p>
+     <p id="u423-30">&nbsp;</p>
+     <p id="u423-33">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="u423-32">(xor_expr</span></p>
+     <p id="u423-36">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ($--&gt; <span id="u423-35">(seq</span></p>
+     <p id="u423-38">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; and_expr</p>
+     <p id="u423-40">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (rep (seq ($--&gt; &quot;^&quot; 'BitXor) and_expr)))</p>
+     <p id="u423-43">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="u423-42">(process-binops ($ 1) ($ 2))</span></p>
+     <p id="u423-45">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ))</p>
+     <p id="u423-46">&nbsp;</p>
     </div>
-    <div class="clearfix colelem" id="u436-57"><!-- content -->
-     <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Here's what all those things above mean:</p>
-     <p>&nbsp;</p>
-     <p>The symbol $--&gt; just specifies that this is a reduction rule. The rule is formatted like</p>
-     <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ($--&gt; <span id="u436-7">(what-should-I-match?)</span></p>
-     <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="u436-10">(what-should-I-do-with-what-I-matched?)</span>)</p>
-     <p>&nbsp;</p>
+    <div class="clearfix colelem" id="u436-59"><!-- content -->
+     <p id="u436-2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Here's what all those things above mean:</p>
+     <p id="u436-3">&nbsp;</p>
+     <p id="u436-5">The symbol $--&gt; just specifies that this is a reduction rule. The rule is formatted like</p>
+     <p id="u436-8">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ($--&gt; <span id="u436-7">(what-should-I-match?)</span></p>
+     <p id="u436-12">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="u436-10">(what-should-I-do-with-what-I-matched?)</span>)</p>
+     <p id="u436-13">&nbsp;</p>
      <p id="u436-15">'seq' means concatenation, so (seq a b) matches the list (a b) but not the list (a).</p>
      <p id="u436-17">When we match a sequence, we can access each element by number- so if we match (seq a b c) then ($ 1) is bound to a, ($ 2) is bound to b, ($ 3) is bound to c.</p>
      <p id="u436-19">'rep' means 0+ repetitions, (as in Kleene star), so (rep a) matches the following lists: ( ) (a) (a a) (a a a.. a)</p>
@@ -340,61 +335,49 @@ var __adobewebfontsappname__ = "muse";
      <p id="u436-23">Once we've made the match we call a method called process-binops with 2 arguments. ($ 1) is the first mandatory &quot;and expression&quot; and ($ 2) is a possibly empty list with more &quot;and expressions&quot;.</p>
      <p id="u436-24">&nbsp;</p>
      <p id="u436-26">I'll spare you the code for process-binops, but at the end I output a racket list that looked something like:</p>
-     <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="u436-28">('BinOp &lt;and expression&gt;).</span></p>
-     <p id="u436-31">If we matched anything in the 'rep' the output looks something like:</p>
-     <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="u436-33">('BinOp &lt;and expression&gt; 'BitXor</span></p>
-     <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="u436-36">('BinOp &lt;and expression&gt; 'BitXor</span></p>
-     <p id="u436-39">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ...</p>
-     <p id="u436-41">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ('BinOp &lt;and expression&gt;)).</p>
-     <p id="u436-42">&nbsp;</p>
-     <p><span id="u436-43">This matches the </span><a class="nonblock" href="https://docs.python.org/3/library/ast.html#abstract-grammar">AST specification</a><span id="u436-46"> that a binary operation is</span></p>
-     <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="u436-49">BinOp(expr left, operator op, expr right)</span></p>
-     <p id="u436-52">because 'BitXor is an operator and &lt;and expression&gt;s are expressions.</p>
-     <p id="u436-53">&nbsp;</p>
-     <p id="u436-55">For reference, the reduction above is 6 lines of an 800 line-ish implementation. Yikes! This was definitely the hardest part of the compilation pipeline.</p>
+     <p id="u436-30">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="u436-28">('BinOp &lt;and expression&gt;)</span><span id="u436-29">.</span></p>
+     <p id="u436-32">If we matched anything in the 'rep' the output looks something like:</p>
+     <p id="u436-35">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="u436-34">('BinOp &lt;and expression&gt; 'BitXor</span></p>
+     <p id="u436-38">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="u436-37">('BinOp &lt;and expression&gt; 'BitXor</span></p>
+     <p id="u436-40">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ...</p>
+     <p id="u436-43"><span id="u436-41">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ('BinOp &lt;and expression&gt;))</span>.</p>
+     <p id="u436-44">&nbsp;</p>
+     <p id="u436-49"><span id="u436-45">This matches the </span><a class="nonblock" href="https://docs.python.org/3/library/ast.html#abstract-grammar">AST specification</a><span id="u436-48"> that a binary operation is</span></p>
+     <p id="u436-52">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="u436-51">BinOp(expr left, operator op, expr right)</span></p>
+     <p id="u436-54">because 'BitXor is an operator and &lt;and expression&gt;s are expressions.</p>
+     <p id="u436-55">&nbsp;</p>
+     <p id="u436-57">For reference, the reduction above is 6 lines of an 800 line-ish implementation. Yikes! This was definitely the hardest part of the compilation pipeline.</p>
     </div>
     <div class="clearfix colelem" id="u429-4"><!-- content -->
      <p>Desugaring &amp; Normalizing</p>
     </div>
-    <div class="clearfix colelem" id="pu428-71"><!-- group -->
-     <div class="clearfix grpelem" id="u428-71"><!-- content -->
-      <p>After we have the AST, we want to make all the elements as simple as possible because we want to end up at assembly. Many of the transformations are putting expression into canonical form, or dropping notation related to function calls like decorators, defaults and annotations.</p>
-      <p>&nbsp;</p>
-      <p>We make a <a class="nonblock" href="https://github.com/mattmight/project-python-desugar-1">handful of</a> <a class="nonblock" href="https://github.com/mattmight/project-python-pydesugar-2">transformations</a>, including, for example:</p>
-      <p>&nbsp;</p>
-      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1.&nbsp; <span id="u428-14">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return None</span></p>
-      <p>&nbsp;</p>
-      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2.&nbsp; <span id="u428-18">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>(a, b, c) = somelist&nbsp; <span id="u428-20">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>--&gt; <span id="u428-22">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $tmp = list(somelist)</span></p>
-      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="u428-25">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; a = ($tmp)[0]</span></p>
-      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="u428-28">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; b = ($tmp)[1]</span></p>
-      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="u428-31">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; c = ($tmp)[2]</span></p>
-      <p>&nbsp;</p>
-      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3.&nbsp; <span id="u428-35">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>for loops <span id="u428-37">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>--&gt; <span id="u428-39">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>while loops</p>
-      <p>&nbsp;</p>
-      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4.&nbsp; <span id="u428-44">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>lambda expression <span id="u428-46">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>--&gt; <span id="u428-48">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>normal old method</p>
-      <p>&nbsp;</p>
-      <p>Some of the transformations required us to first normalize the AST. Normalizing means that everything on the right-hand side of an assignment statement is a simple expression. For example</p>
-      <p>&nbsp;</p>
-      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; annie_happy = drink( heat( water ) + teabag )</p>
-      <p>&nbsp;</p>
-      <p>would normalize as:</p>
-      <p>&nbsp;</p>
-      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; a = heat( water)</p>
-      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; b = a + teabag</p>
-      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; annie_happy = drink( b )</p>
-      <p>&nbsp;</p>
-      <p>The most interesting transformations were eliminating classes and normalizing multiple comparisons so that a &lt; b &lt; c&nbsp; looked more like (a &lt; b) and (b &lt; c).</p>
-     </div>
-     <div class="grpelem" id="u465"><!-- simple frame --></div>
-     <div class="grpelem" id="u470"><!-- simple frame --></div>
-     <div class="grpelem" id="u474"><!-- simple frame --></div>
-     <div class="grpelem" id="u473"><!-- simple frame --></div>
-     <div class="grpelem" id="u471"><!-- simple frame --></div>
-     <div class="grpelem" id="u466"><!-- simple frame --></div>
-     <div class="grpelem" id="u467"><!-- simple frame --></div>
-     <div class="grpelem" id="u468"><!-- simple frame --></div>
-     <div class="grpelem" id="u475"><!-- simple frame --></div>
-     <div class="grpelem" id="u476"><!-- simple frame --></div>
+    <div class="clearfix colelem" id="u428-73"><!-- content -->
+     <p id="u428-2">After we have the AST, we want to make all the elements as simple as possible because we want to end up at assembly. Many of the transformations are putting expression into canonical form, or dropping notation related to function calls like decorators, defaults and annotations.</p>
+     <p id="u428-3">&nbsp;</p>
+     <p id="u428-11">We make a <a class="nonblock" href="https://github.com/mattmight/project-python-desugar-1">handful of</a> <a class="nonblock" href="https://github.com/mattmight/project-python-pydesugar-2">transformations</a>, including, for example:</p>
+     <p id="u428-12">&nbsp;</p>
+     <p id="u428-15">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="u428-14">return&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --&gt;&nbsp;&nbsp; return None</span></p>
+     <p id="u428-16">&nbsp;</p>
+     <p id="u428-23">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2.&nbsp; <span id="u428-18">&nbsp;&nbsp;&nbsp;&nbsp; </span>(a, b, c) = somelist&nbsp; <span id="u428-20"> </span>--&gt; <span id="u428-22">&nbsp; $tmp = list(somelist)</span></p>
+     <p id="u428-26">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="u428-25">a = ($tmp)[0]</span></p>
+     <p id="u428-29">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="u428-28">b = ($tmp)[1]</span></p>
+     <p id="u428-32">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="u428-31">c = ($tmp)[2]</span></p>
+     <p id="u428-33">&nbsp;</p>
+     <p id="u428-41">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3.&nbsp; <span id="u428-35">&nbsp;&nbsp;&nbsp;&nbsp; </span>for loops <span id="u428-37">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>--&gt; <span id="u428-39"> </span>while loops</p>
+     <p id="u428-42">&nbsp;</p>
+     <p id="u428-50">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4.&nbsp; <span id="u428-44">&nbsp;&nbsp;&nbsp;&nbsp; </span>lambda expression <span id="u428-46">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>--&gt; <span id="u428-48"> </span>normal old method</p>
+     <p id="u428-51">&nbsp;</p>
+     <p id="u428-53">Some of the transformations required us to first normalize the AST. Normalizing means that everything on the right-hand side of an assignment statement is a simple expression. For example</p>
+     <p id="u428-54">&nbsp;</p>
+     <p id="u428-57">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="u428-56">annie_happy = drink( heat( water ) + teabag )</span></p>
+     <p id="u428-58">&nbsp;</p>
+     <p id="u428-60">would normalize as:</p>
+     <p id="u428-61">&nbsp;</p>
+     <p id="u428-64">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="u428-63">a = heat( water)</span></p>
+     <p id="u428-66">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; b = a + teabag</p>
+     <p id="u428-68">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; annie_happy = drink( b )</p>
+     <p id="u428-69">&nbsp;</p>
+     <p id="u428-71">The most interesting transformations were eliminating classes and normalizing multiple comparisons so that a &lt; b &lt; c&nbsp; looked more like (a &lt; b) and (b &lt; c).</p>
     </div>
     <div class="browser_width colelem" id="u210-bw">
      <div id="u210"><!-- simple frame --></div>
