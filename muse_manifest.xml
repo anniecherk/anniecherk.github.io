@@ -1,7 +1,7 @@
-<manifest alg="2" build="2015.0.2.310" opt="true" iceEnabled="true" iceMarkupVersion="2" exportTarget="other" domain="anniecherkaev.com" resolutions="1x" timestamp="1444861503304">
+<manifest alg="2" build="2015.0.2.310" opt="true" iceEnabled="true" iceMarkupVersion="2" exportTarget="other" domain="anniecherkaev.com" resolutions="1x" timestamp="1444861716723">
   <folder name="css">
     <file name="site_global.css" crc="461660015"/>
-    <file name="index.css" crc="3917764942" ref="index"/>
+    <file name="index.css" crc="3817168588" ref="index"/>
   </folder>
   <folder name="scripts">
     <file name="jquery-1.8.3.min.js" crc="196614522" ref="index"/>
@@ -31,5 +31,5 @@
     <file name="pasted image 533x851.jpg" crc="24206528" seo="true" ref="index"/>
     <file name="pasted image 533x848.jpg" crc="502973105" seo="true" ref="index"/>
   </folder>
-  <file name="index.html" crc="298154668" seo="true" mt="1444861376651" redirect="true"/>
+  <file name="index.html" crc="3928808608" seo="true" mt="1444861702536" redirect="true"/>
 </manifest>
