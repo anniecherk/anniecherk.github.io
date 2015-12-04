@@ -1,16 +1,16 @@
-<manifest alg="2" build="2015.0.2.310" opt="true" iceEnabled="true" iceMarkupVersion="2" exportTarget="other" domain="anniecherkaev.com" resolutions="1x" timestamp="1444861716723">
+<manifest alg="2" build="2015.0.2.310" opt="true" iceEnabled="true" iceMarkupVersion="2" exportTarget="other" domain="anniecherkaev.com" resolutions="1x" timestamp="1449190588024">
   <folder name="css">
     <file name="site_global.css" crc="461660015"/>
-    <file name="index.css" crc="3817168588" ref="index"/>
+    <file name="index.css" crc="3903179137" ref="index"/>
   </folder>
   <folder name="scripts">
     <file name="jquery-1.8.3.min.js" crc="196614522" ref="index"/>
     <file name="museutils.js" crc="275725342" ref="index"/>
     <file name="jquery.watch.js" crc="3999102769" ref="index"/>
+    <file name="pie.js" crc="3827607177" ref="index"/>
   </folder>
   <folder name="images">
     <file name="annie-cherkaev-s-rockin-site-favicon.ico" crc="268823072" ref="index"/>
-    <file name="pasted image 1797x1737.png" crc="4180314158" seo="true" ref="index"/>
     <file name="pasted image 424x407.jpg" crc="277199201" seo="true" ref="index"/>
     <file name="pasted image 392x413.jpg" crc="3786707382" seo="true" ref="index"/>
     <file name="pasted image 365x397.jpg" crc="3802226095" seo="true" ref="index"/>
@@ -30,6 +30,7 @@
     <file name="pasted image 536x847.jpg" crc="258239467" seo="true" ref="index"/>
     <file name="pasted image 533x851.jpg" crc="24206528" seo="true" ref="index"/>
     <file name="pasted image 533x848.jpg" crc="502973105" seo="true" ref="index"/>
+    <file name="pasted image 2983x2896.png" crc="3969449749" seo="true" ref="index"/>
   </folder>
-  <file name="index.html" crc="3928808608" seo="true" mt="1444861702536" redirect="true"/>
+  <file name="index.html" crc="193333156" seo="true" mt="1449190235436" redirect="true"/>
 </manifest>
