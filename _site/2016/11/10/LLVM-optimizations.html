@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>LLVM Optimizations</title>
+  <meta name="description" content="What you see is not what you get">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/2016/11/10/LLVM-optimizations.html">
+  <link rel="alternate" type="application/rss+xml" title="/* HACK */" href="http://localhost:4000/feed.xml" />
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link href='//fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+  <link href='//fonts.googleapis.com/css?family=Open+Sans:300,700' rel='stylesheet' type='text/css'>
+</head>
+
+
+  <body>
+
+    <div class="site-header">
+
+    <nav class="site-nav">
+        
+          
+          <a class="page-link" href="/about/">whoami</a>
+          
+        
+          
+        
+          
+        
+          
+        
+    </nav>
+
+    <h1>
+     <span>
+      <a class="site-title" href="/">/* HACK */</a>
+     </span>
+    </h1>
+
+
+</div>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+     <h1 class="post-title">LLVM Optimizations</h1>
+     <p class="post-meta">Nov  2016</p>
+  </header>
+
+  <article class="post-content">
+    <h1>What you see is not what you get</h1>
+
+<p>LLVM is the Low Level Virtual Machine. It&#39;s a compiler backend- the deal is you compile your fancy high level language to a high level assembly and hand that off to LLVM. This high level assembly is the LLVM Intermediate Representation (IR). LLVM handles a bunch of optimizations and then compiles to machine code for whatever hardware platform you want. This is what VM&#39;s do (think Java)- they give you portability across hardware &amp; operating systems. LLVM&#39;s assembly language is in Static Single Assignment form <a href="https://en.wikipedia.org/wiki/Static_single_assignment_form">(SSA)</a> because it was originally made with C and C++ in mind, but lots of other production languages, even functional ones like Haskell, Julia, Python (Numba), and Rust have compilers that target LLVM! You can <a href="http://llvm.org/docs/FAQ.html#i-d-like-to-write-a-self-hosting-llvm-compiler-how-should-i-interface-with-the-llvm-middle-end-optimizers-and-back-end-code-generators">roll your own compiler to target LLVM</a>!</p>
+
+<p><img src="/images/redllvmdragon.jpg" alt=""></p>
+
+<p>It&#39;s really awesome because it means that if you want to write a language, LLVM modularizes your concerns: you stick to getting the language details right, and let someone else handle the assembly generation! You don&#39;t have to handle <a href="https://fgiesen.wordpress.com/2016/08/25/how-many-x86-instructions-are-there/">the nitty gritty of x86</a> or ARM or whatever other instruction set, and you don&#39;t have to write <a href="http://llvm.org/docs/Passes.html#transform-passes">common optimizations</a>. Any day you don&#39;t have to unroll loops yourself is a good day.</p>
+
+<h2>Okay, so what&#39;s the plan?</h2>
+
+<p>We&#39;re going to look at 3 different implementations of gcd. In fact, they&#39;re <a href="https://en.wikipedia.org/wiki/Euclidean_algorithm">literally the 3 implementations suggested by wikipedia</a>, transcribed into C code.</p>
+
+<p>We&#39;re going to look at the LLVM IR code emitted by Clang, a C compiler. Then we&#39;re going to run this IR through the LLVM optimizer- and it&#39;s going to try about 100 different optimization passes! - and see how they compare.</p>
+
+<p>If you want to follow along I&#39;ve put all the code in <a href="https://github.com/anniecherk/code_for_website/tree/master/llvm_optimizations">this repo</a>, but you also need to grab an precompiled LLVM binary. More instructions below! You could even grab this code as a starting point to look at how LLVM optimizes your own code! But only if reading assembly is your idea of fun ;)</p>
+
+<p>Okay, onwards!</p>
+
+<h2>Following Along</h2>
+
+<p>1) Grab the repo:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">git clone https://github.com/anniecherk/code_for_website
+</code></pre></div>
+<p>This repo just has the 3 euclidean algorithm implementations from wikipedia, and all the generated IR.</p>
+
+<p>2) Grab a <a href="http://llvm.org/releases/download.html">precompiled LLVM binary</a> (I used 3.9.0), and untar it</p>
+
+<p>3) Add the LLVM binaries to your path:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">export </span><span class="nv">LLVM</span><span class="o">=</span>&lt;wherever you unpacked the llvm files&gt;/clang+llvm-3.9.0-x86_64-apple-darwin/bin/
+</code></pre></div>
+<p>** or whatever the file is called on your OS, and then add it to your path:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$LLVM</span>:<span class="nv">$PATH</span>
+</code></pre></div>
+<p>4) Get the naiive IR by running:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">clang -S -emit-llvm gcd1.c
+</code></pre></div>
+<p>This saves it to a file called <code>&lt;filename&gt;.ll</code></p>
+
+<p>5) Get the fancy optimized IR by running:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">opt -O2 -print-after-all gcd1.ll 2&gt; opt_gcd1.ll
+</code></pre></div>
+<p>(We use <code>2&gt;</code> because <code>-print-after-all</code> helpfully prints details of all the passes to stderr, so that&#39;s what we&#39;re redirecting to file).
+You can also pick and choose <a href="http://llvm.org/docs/Passes.html">which optimizations you want</a> instead of running the prepackaged O2 bundle.</p>
+
+<h2>Okay, what we looking at?</h2>
+
+<p>We&#39;ve got our 3 gcd functions:
+<img src="/images/screen-shot-2016-11-17-at-11.41.19-am.jpg" alt=""></p>
+
+<h3>What you might want to know when LLVM assembly</h3>
+
+<p>We&#39;re going to look at the LLVM IR in just a hot sec, but first here are some things that might be helpful to know:</p>
+
+<p><code>i32</code> is a 32 bit integer, <code>i1</code> is a 1 bit boolean. Remember this is just the LLVM IR- what this gets physically mapped to depends on your hardware, and decisions that the backends make!</p>
+
+<p><code>alloca</code> allocates space on the stack that gets released when the function returns.</p>
+
+<p><code>srem</code> is the signed remainder instruction.</p>
+
+<p><code>sub nsw</code> is subtraction with No Signed Wrap. This means that if the subtraction underflows the value is poisoned! (How dramatic!)</p>
+
+<p>Here&#39;s the LLVM IR that Clang compiles them to. Ready for a screenful of assembly code? Don&#39;t worry, we&#39;ll talk about it after!
+<img src="/images/llvm_ir.jpg" alt=""></p>
+
+<p>Here&#39;s some interesting things to notice about the above code!</p>
+
+<h3>Clang did some optimization!</h3>
+
+<p>The assembly for gcd1 and gcd3 is identical! That&#39;s really cool! This means that Clang figured out that the recursion in gcd3 could be rewritten as the while loop in gcd1.</p>
+
+<p>I think the lesson here is that optimization happens on so many levels- you can optimize your high level code, but the front-end compiler like Clang will also try to optimize it, then LLVM will try to optimize the IR, the various backends <a href="https://en.wikipedia.org/wiki/FMA_instruction_set">will try to optimize the machine specific code</a>. And finally, <a href="https://en.wikipedia.org/wiki/Hyper-threading">your hardware is optimized</a> in lots of really awesome ways!</p>
+
+<p>This means that by the time your C code is actually passed to hardware as, say x86, it&#39;s been written and rewritten by many hands. This is, of course, both a blessing and a burden. On one hand, this modularization is both absolutely necessary and also delightful. You don&#39;t have time to be an expert at everything, and you probably don&#39;t want to be. On the other hand, it&#39;s that many more opportunities for bugs. What you see is not what you get.</p>
+
+<p>Okay, back to the IR!</p>
+
+<h3>SSA and The Disposable Variable</h3>
+
+<p>Okay, so see all the <code>%1 = ..., %2 = .., %3 = ...</code>, etc assignments? Recall that SSA is Static Single Assignment- this is the single assignment part! In the LLVM IR we have an infinite number of registers, so we never need to reuse them. This makes lots of analyses much easier because you don&#39;t have to worry about when which registers change! The backends handle mapping to physical registers so.. its someone else&#39;s problem :)</p>
+
+<p>Notice that the labels also have unique numbers- and even though the IR for gcd1 and gcd3 is identical the numbers on the labels are slightly different! (ie, <code>; &lt;label&gt;:9: vs ; &lt;label&gt;:10:</code>)My guess is that Clang first generated label numbers, and then optimized away one of the blocks in gcd3.</p>
+
+<h3>SSA and The Basic Block</h3>
+
+<p>Now look at how the IR is organized- we&#39;ve got a bunch of blocks of code that start with <code>; &lt;label&gt;:6:</code> and end with <code>br label %somenumber</code>. Each of these is a basic block. Basic blocks have two rules- there&#39;s only one way in (first line of the block), and one way out (last line of the block- though the way out can be conditional, like a branch!) This control flow does NOT fall through- we always explicitly say where we jump to when we&#39;re done with a given block.</p>
+
+<h3>SSA and Phi Nodes</h3>
+
+<p>The IR that Clang emitted doesn&#39;t have <a href="https://en.wikipedia.org/wiki/Static_single_assignment_form#Converting_to_SSA">phi nodes</a>... but we&#39;ll see them in the IR emitted by LLVM so let&#39;s just chat about them now. Phi nodes are how we deal with control flow in SSA. Consider a simple if statement:</p>
+<div class="highlight"><pre><code class="language-c" data-lang="c"><span class="k">if</span> <span class="p">(</span><span class="n">some_condition</span><span class="p">)</span><span class="o">:</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+<span class="k">else</span><span class="o">:</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+<span class="n">some_function_call</span><span class="p">(</span> <span class="n">y</span> <span class="p">);</span>
+</code></pre></div>
+<p><br>
+When we get to the code at the bottom of the if statement, we need to know which value of y we need to use, and we signify that the control flow <em>merges</em> back together with a phi node. The phi node goes at the top of the basic block, and selects the correct value for y.</p>
+
+<h2>Okay finally! The optimizations!</h2>
+
+<p>Since Clang compiled gcd1 and gcd3 to the same IR, we&#39;ll just look at what optimizations LLVM can pull out of gcd1 and gcd2.</p>
+
+<p>We&#39;re going to look at side-by-side diffs of the IR for the two functions. I&#39;m just warning you because you&#39;re about to get screenfuls of assembly again. Ready?</p>
+
+<p>Hold your nose cause here goes the cold water...</p>
+
+<p>First up! gcd1!</p>
+
+<p><img src="/images/gcd1_optimizations.jpg" alt=""></p>
+
+<p>And here&#39;s gd2!</p>
+
+<p><img src="/images/gcd2_optimizations.jpg" alt=""></p>
+
+<h3>Things to notice</h3>
+
+<p>There are those phi nodes we talked about! We also got rid of all the alloca&#39;s, and our labels got split into a preheader, outer, and two outer critcal edge loop exits.</p>
+
+<h3>Let&#39;s talk Passes</h3>
+
+<p>Okay, so here&#39;s how LLVM optimizations work. When we run the O2 optimization level, this represents a bunch of small optimization passes. (Or, we can select which specific optimizations we want via commandline flags.) An optimization pass either changes something about the IR, or maybe it just collects and annotates information for other passes to use. This means that order matters! Some passes are run lots of times!  You <a href="http://llvm.org/docs/Passes.html">can see all the passes LLVM can do</a> and you can even write your own!</p>
+
+<p>There&#39;s way more cool stuff to say about LLVM&#39;s passes than I want to spend time on here, but <a href="http://llvm.org/devmtg/2014-04/PDFs/Talks/Passes.pdf">here</a> is a really great slidedeck.</p>
+
+<h2>Which passes optimized our code?</h2>
+
+<p>Glad you asked!</p>
+
+<h3>SROA: Scalar Replacement of Aggregates</h3>
+
+<p>The very first thing that ran was SROA, the goal of which is to get rid of alloca&#39;s. All the alloca&#39;s got replaced with phi nodes! That&#39;s where they all came from...</p>
+
+<h3>Loop-Closed SSA Form</h3>
+
+<p>Added an extra phi node- this is one of the annotation passes, it adds phi nodes for every &#39;live&#39; variable at the end of the basic block because this might expose optimizations done by other passes.</p>
+
+<h3>Rotate Loops</h3>
+
+<p>This is what architecture calls &#39;software pipelining&#39;. If your loop does thingA and then thingB, you can move thingA out above the loop, then &#39;rotate&#39; the loop so it looks like thingB and then thingA.. and then do some cleanup. I assume this is also done in search of more optimizations.</p>
+
+<h3>Simplify the CFG (Control Flow Graph)</h3>
+
+<p>In general, simplyifycfg is responsible for gutting dead code, and combining basic blocks that can combined. This pass introduced the ._crit_edge: label.</p>
+
+<h3>Canonicalize Natural Loops</h3>
+
+<p>This pass introduced the preheader and loopexit labels. In general, this pass turns loops into a more structured canonical form which exposes them to other optimizations. This fits consistently with LLVM&#39;s pass strategy: canonicalize, simplify, lower.</p>
+
+<h3>Global Variable Numbering</h3>
+
+<p>This pass got rid of one of the phi nodes that closed loop SSA form introduced. At least we&#39;re netting zero?</p>
+
+  </article>
+
+  <div align="center">
+  	<a href="#">
+  	<i class="fa fa-arrow-circle-up fa-2x"></i>
+  	</a>
+  </div>
+
+</div>
+
+      </div>
+    </div>
+
+    <div class="footer" align="center">
+
+  Jekyll Theme by <a href=https://github.com/diezcami target="_blank">Camille Diez</a><BR />
+
+</div>
+
+
+  </body>
+
+</html>

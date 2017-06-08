@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Notes from POPL 17</title>
+  <meta name="description" content="Flow Tutorial">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/2017/01/20/popl.html">
+  <link rel="alternate" type="application/rss+xml" title="/* HACK */" href="http://localhost:4000/feed.xml" />
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link href='//fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+  <link href='//fonts.googleapis.com/css?family=Open+Sans:300,700' rel='stylesheet' type='text/css'>
+</head>
+
+
+  <body>
+
+    <div class="site-header">
+
+    <nav class="site-nav">
+        
+          
+          <a class="page-link" href="/about/">whoami</a>
+          
+        
+          
+        
+          
+        
+          
+        
+    </nav>
+
+    <h1>
+     <span>
+      <a class="site-title" href="/">/* HACK */</a>
+     </span>
+    </h1>
+
+
+</div>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+     <h1 class="post-title">Notes from POPL 17</h1>
+     <p class="post-meta">Jan  2017</p>
+  </header>
+
+  <article class="post-content">
+    <h1>Flow Tutorial</h1>
+
+<p>I really enjoyed Avik Chaudhuri&#39;s tutorial on the js static typechecker, flow. My over-all impression is that flow is pretty production ready- he mentioned that roughly 65% of facebook’s code is now annotated with flow.</p>
+
+<h4>Soundness</h4>
+
+<p>Interestingly, they designed parts of the typesystem to be unsound <em>intentionally</em> because javascript is so sticky that getting it “right” would not be very practical with existing code. An example of this is that in js, you can call a function with extra parameters: for instance I have a function <code>cat(age)</code>. It is valid for me to call it <code>cat(10, 15, “hello”)</code>. While this should strike fear in your heart, flow does not mark this as an error. This isn’t a totally esoteric example, this is one idiomatic way to handle optional arguments in js- this convention appears in a lot of existing code, so it’s not very practical to have this marked as an error.</p>
+
+<h4>Efficiency</h4>
+
+<p>Flow needs to be efficient because facebook’s projects are really large, and developers won’t use it if it interfere with their development process. Flow is distributed in a master/workers model, except to avoid causing the master to be a bottleneck, they use a shared memory heap. Each worker knows what part of the heap it gets to write to/ read from- efficiently creating a masterless master/worker model! Super cool.</p>
+
+<h4>Error Reporting: Non-Trivial</h4>
+
+<p>It turns out that error reporting is tricky because 1) you might have all sorts of errors which stem from a single mistake, and you need a way to choose which error is the most important to display (it&#39;s type errors), and 2) type inference might fail not exactly where the offending method was called/ implemented. This led me to a really awesome paper called <a href="https://www.cs.cornell.edu/andru/papers/diagnostic/popl14.pdf">“Toward General Diagnosis of Static Errors” (Zhang &amp; Myers)</a> in which they used Bayesian inference to learn the “best” place to blame for the error.</p>
+
+<h1>PLMW</h1>
+
+<h4>Typed Assembly Language</h4>
+
+<p>I was amazed to learn that a typed assembly language existed at all, but someone has thought it up! In fact, Stephanie Weirich, who was one of the keynote speakers, <a href="https://github.com/sweirich/tal">has an implementation of it on github</a>. Neat.</p>
+
+<h4>You should probably say no.</h4>
+
+<p>Kathleen Fisher gave a great talk that I think could be summarized as, if you want to be happy as a researcher you’re going to need to say no to commitments you don’t have time for, and get out of commitments you already agreed to if the going gets too bad. It’s way better to say no than to do a bad job.</p>
+
+<h4>Abductive reasoning</h4>
+
+<p>Isil Dilling gave a talk titled, “Abductive Reasoning in Deductive Verification”, but what really fascinated me was that she was using abduction at all, because as far as I knew abduction was logically unsound. I believe the trick was that they used abduction to generate hypothesis and then deduction (which is sound) to verify it before accepting the hypothesis. Interesting.</p>
+
+<h4>Reading papers</h4>
+
+<p>Michael Hicks suggested reading papers by reading the abstract, intro, section headers and conclusion. I usually do the first three without getting to the conclusion, but in retrospect, yes, reading the conclusion is a better plan.</p>
+
+<h4>jsnice is so cool</h4>
+
+<p>Martin Vechev gave a talk I was especially interested in about PL meets ML. One example was <a href="http://jsnice.org/">jsnice</a>, which takes mini-ified java script code and makes it readable by reindenting it, suppling reasonable variable names (!) and adding comments that guess the types. This is a super cool application for structured prediction that’s made possibly by having huge amounts of code on github to train on. Super neat.</p>
+
+<h4>Gradual typing is not what I thought it was</h4>
+
+<p>After dinner I walked to the subway with a student working on gradual typing, and he explained one motivation for gradual typing is to construct a wrapper around existing dynamically typed code (python, js, R, etc). We’re stuck with that code, but it would be really nice if we could add typing information because static types are so so useful.</p>
+
+<h1>POPL</h1>
+
+<h4>Dependent types in Haskell: Stephanie Weirich’s keynote</h4>
+
+<p>This was my favorite talk. Also she live-coded in front of 700 people! Damn!</p>
+
+<p>She motivated the work with an example: imagine you want to implement a filepath regex matcher, and you want static, compile-time type errors if you try to access a part of the filepath that isn’t actually part of the filepath.</p>
+
+<p>Doing dependent typing in Haskell requires a little bending-over-backwards because types are not first order citizens, which means doing computation with types is a little awkward. Stephanie demonstrated a library called Singleton which automatically [read: painlessly] generates the boilerplate you might want, which wraps types (if you anticipating needing type information at runtime- to say, print to the screen) in a datatype. This reminded me of wrapping methods in objects in Java- a Comparator object, as my intro cs professor called it- to pass a custom comparison function to a sorting function. Clunky.</p>
+
+<h4>Java generics are Turing complete</h4>
+
+<p>So you can write arbitrary programs entirely in the java generics type system. How fun.</p>
+
+<h4>Formal semantics for an editor</h4>
+
+<p>Cyrus Omar gave a cool talk about the semantics of a drag-and-drop editor called Hazelnut. This is an interesting problem because if a program is wrong or half-written it is simply invalid, but an editor needs to deal with partially complete code because that’s how we write code. The reason an editor wants to have semantics at all is because it can suggest useful hints to the user, like type information. His solution was using holes for incomplete pieces of code like <code>walk_dog(</code> and syntactically invalid code like <code>walk_dog(True,   )</code>.</p>
+
+<h4>Quantified metrics for maintainability</h4>
+
+<p>I had an interesting conversation about why Haskell isn’t use more pervasively in industry, given from some anecdotal evidence that it would be economical in terms of preventing bugs and improving maintainability. Here are some conclusions: it’s a hard sell that  specific code isn’t maintainable- if there was a way to quantify “this code is a nightmare” it wouldn’t be a discussion. Possibly there isn’t a great domain- haskell is good for sort of “general backend” programming, but if you need a general backend you’ll probably use c++ for maximum perceived performance. It is also rather academic [read: intimidating/ too much effort]- it occurred to me during the dependent type keynote today that you probably won’t be using dependent types unless you’re a PL researcher.</p>
+
+<h4>Automatic web-server caching</h4>
+
+<p>The set up is you have many clients querying a server with a database backend. The server/database communication can become a bottleneck, so it becomes pertinent to create a db cache on the cache. The cool thing about their framework is you can add it for free to existing code- you don’t need to annotate or refactor anything. The catch is that it works for the Urweb programming language, and relies on nice language properties- so while it’s a slick idea, it’s not very practical. The idea is that we can parse the queries to determine which entries we need to invalidate.</p>
+
+<h4>If the subway’s packed, go the other way</h4>
+
+<p>We were a little late getting in because there was some accident on the line- so when the trains started coming in they were totally packed- like doors-can’t-close full. My hotel roommate, Patience, had the bright idea to ride the line in the opposite direction until a station where the platform wasn’t crowded- and two stations in the wrong direction we caught an empty train that we wouldn’t have even been able to get on at Maison Blanche.</p>
+
+<h4>Mixed-size concurrency: ARM, Power, C/C++ 11</h4>
+
+<p>A fixed size memory access means that I have 1 read / 1 write. I write a 64-bit int, I read a 64-bit int. A mixed-size memory access means I have 1 read / multiple writes. An example is packed structs- I think the point here is that it’s cheaper to read memory in larger chunks, so even if you’re dealing with data that can be represented in fewer bits, you’re going to read multiple pieces of data at once. The talk was about the <em>semantics</em> of what they called “relaxed shared-memory concurrency”- turns out you can run into problems with sequential consistency because if you do these mixed-size reads you might be doing concurrently what is conceptually sequential. This was one of my favorite talks, <a href="https://www.cl.cam.ac.uk/%7Epes20/popl17/mixed-size.pdf">here is the paper</a>.</p>
+
+<h4>Bidirectional Programming: Read/Parsing &amp; Tardis</h4>
+
+<p>Bidirectional programming is a neat idea! Imagine you have a parser- shouldn’t you be able to “run it backwards” to get a printer? I haven’t thought through how to make this work, and it possibly doesn’t work for all grammars. The simplest case is very simple though- let’s parse “hello” into 0 :: Int, and “world” into 1 :: Int. We just match on both strings and return 0 or 1. Run backwards we take 0 or 1 and return which string we matched on. I’m not sure how to handle branching and recursive function calls. Cool though!</p>
+
+<p>The other related thing I learned about is the <a href="https://hackage.haskell.org/package/tardis-0.4.1.0/docs/Control-Monad-Tardis.html">Tardis “time-traveling” monad pair</a>. We can use it to solve the problem “walk a tree, and replace every 3 with the number of 4’s in the tree”. So if the tree was “(3 (3 (4)) (4))” we would want to produce the tree “(2 (2 (4)) (4))”. During one walk of the tree, one monad walks the tree and replaces every 3 with a box to hold the “future value”, while the other counts the number of 4’s, and then sets the “future value”. Neat.</p>
+
+<h4>Semantic Equivalence between Languages</h4>
+
+<p>I was excited about this poster because this is something I was thinking about a few months ago! Here’s the problem- I want to write my front-end in js, my network in Go, my backend in Haskell, and the best I can do is either some wizardry with foreign-function-interfaces (which probably makes more sense if C is one of the languages I want to work with!) or piping around in some serialized data like JSON. If I wanted to do something slicker, I would need to translate between the semantics of the languages I wanted to stick together- like I would need to directly translate a C int to a Haskell int, etc. And this is what they’re working on! That’s cool!</p>
+
+<h4>Rust 101</h4>
+
+<p>Aaron Turon gave an awesome keynote- I had heard superlative things about Rust’s community, and Aaron sold me on their abstraction. The goal is lofty: minimize the safety / performance trade-off, and no data races! He pitched the motto: &quot;Hack without fear&quot;</p>
+
+<p>The key idea is “ownership”- there are 3 types of ownerships a variable can have, each of which allows you to do different things with the variable.</p>
+
+<p><strong>1) Owned:</strong> these are variables that you can mutate but you CANNOT alias! This means I <em>know</em> that I am the only one mutating this variable- and I can pass it off to another function call if I want, but when I do that I hand off ownership to that function. When that function returns, the function pointer is deleted (as well as the data), so I can’t regain ownership, which removes bugs like use-after-free. They call this &quot;region based borrowing&quot;.</p>
+
+<p><strong>2) Shared Reference:</strong> these can be aliased by multiple callers but CANNOT be mutated. This is the functional paradigm.</p>
+
+<p><strong>3) Mutable Reference:</strong> Sometimes you want to have your cake and eat it too: these are mutable temporary loaner variables. They also cannot be aliased- if you have one of these vars, you are guaranteed that it is the only way at that time to access the data it points to. There is some &quot;borrow checking&quot; machinery that happens to make sure this guarantee is upheld.</p>
+
+<p><strong>4) A tiny bit of unsafety:</strong> you can write segments of unsafe code by wrapping them in an unsafe block. The dream is to use this to efficiently implement core Rust libraries, and then scrubbing, polishing and possibly verifying them so that high-level user code can be safe. Having this option to write unsafe code may or may not end in tears in practice- ideally writing safe code will be easier so the laziest path is to just do the safe thing.</p>
+
+<p>This sets us up to not have race conditions! (At least that&#39;s the claim! There might be some snakes under the rug) The idea is that we get a data race when we have 2 unsynchronized threads accessing the same data and at least 1 thread writes: this is caused because they&#39;re unsynchronously dealing with shared state and mutability, but Rust never allows both at once! &quot;Shared state is not evil... but <em>accidental</em> shared state is.&quot; The claim is this ownership type system prevents accidentally sharing state.</p>
+
+<p>I heard murmurs about work needing to be done to theoretically verify these claims (and people working on it!) The devil is probably in the details, but the overall design seemed very solid &amp; impressive. I&#39;m excited for Rust.</p>
+
+<h4>Industry makes Languages</h4>
+
+<p>Go? Google. Hack? FB. Swift? Apple. (also LLVM!) Rust? Mozilla.
+Not surprisingly, these monolithic companies have their own internal tools teams.</p>
+
+<h4>An idea: learning Flow annotations</h4>
+
+<p>After hearing the flow tutorial &amp; learning about jsnice, I was wondering about whether it was possible to learn flow annotations. If you&#39;ve got a really big code base to learn from, and at least a small amount of labeled data, maybe you could do some semi-supervised learning to automatically annotate the rest of the codebase. It&#39;s possible that the level of detail of type information needed for flow to be successful will make this challenging.</p>
+
+<h4>Concurrent Parallel Functional Arrays- with common O(1-ish) ops</h4>
+
+<p>This talk was so packed that I had to sit on the stairs! This was a nice idea about doing arrays functionality: imagine you have a mutable array. Now when you mutate an entry, instead of just changing it, we update to the new value and push the old value out into a linked list- like we would for a hashtable collision. Concretely, say we have [0, 1, 2], and I want to change 0 to be 4 then I&#39;d get: [4 -&gt; 0, 1, 2]. Okay, there&#39;s one more detail because that doesn&#39;t get us persistence: each piece of data is annotated with a version stamp. So the original array was v.0, and the updated array is v.1. When I request the array, I request it with a version number- so I&#39;m always getting the right one! This scales nicely to concurrent code.</p>
+
+<h4>Adding dynamic type checks to python</h4>
+
+<p>I talked with someone working on gradual typing for python who has a system to automatically add runtime type checks (assert that x is a string) to existing python code. That&#39;s pretty cool- if things have gone all pear-shaped we should really crash, because if we continue executing instead that&#39;s an opportunity for an exploit.</p>
+
+  </article>
+
+  <div align="center">
+  	<a href="#">
+  	<i class="fa fa-arrow-circle-up fa-2x"></i>
+  	</a>
+  </div>
+
+</div>
+
+      </div>
+    </div>
+
+    <div class="footer" align="center">
+
+  Jekyll Theme by <a href=https://github.com/diezcami target="_blank">Camille Diez</a><BR />
+
+</div>
+
+
+  </body>
+
+</html>

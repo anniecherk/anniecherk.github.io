@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Contributing to GHC</title>
+  <meta name="description" content="I came to the RC thinking that I would contribute to the Elm compiler... but then abandoned the idea for many reasons of varying validity- but it definitely ...">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/2016/07/10/Contributing-GHC.html">
+  <link rel="alternate" type="application/rss+xml" title="/* HACK */" href="http://localhost:4000/feed.xml" />
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link href='//fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+  <link href='//fonts.googleapis.com/css?family=Open+Sans:300,700' rel='stylesheet' type='text/css'>
+</head>
+
+
+  <body>
+
+    <div class="site-header">
+
+    <nav class="site-nav">
+        
+          
+          <a class="page-link" href="/about/">whoami</a>
+          
+        
+          
+        
+          
+        
+          
+        
+    </nav>
+
+    <h1>
+     <span>
+      <a class="site-title" href="/">/* HACK */</a>
+     </span>
+    </h1>
+
+
+</div>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+     <h1 class="post-title">Contributing to GHC</h1>
+     <p class="post-meta">Jul  2016</p>
+  </header>
+
+  <article class="post-content">
+    <p>I came to the <a href="https://www.recurse.com/">RC</a> thinking that I would contribute to the Elm compiler... but then abandoned the idea for many reasons of varying validity- but it definitely felt intimidating! A few weeks later I was talking to James, who told me he had made a small contribution to GHC- the Haskell compiler- so over the weekend I ended up for the <a href="https://ghc.haskell.org/trac/ghc/wiki/Newcomers">newcomer page</a> for GHC. At the bottom of this page was <a href="https://rawgit.com/gibiansky/4c54f767bf21a6954b23/raw/67c62c5555f40c6fb67b124307725df168201361/exp.html">this post</a> which is a walk through of Andrew&#39;s first GHC contribution.</p>
+
+<p>And you know what, if Andrew can do it, I can do it. (Can and did!) Damn the torpedoes, full speed ahead!</p>
+
+<p>So in parallel to Andrew&#39;s guide to his first contribution in excruciating detail, here is mine:</p>
+
+<hr>
+
+<h1>Compiling GHC from the source</h1>
+
+<p>I followed the newcomer instructions and had <em>surprisingly few</em> issues getting GHC to compile. It did take a while though! Here&#39;s the rundown:</p>
+
+<p>I ran:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>git clone --recursive git://github.com/ghc/ghc
+<span class="gp">$ </span><span class="nb">cd </span>ghc/
+<span class="gp">$ </span>cp mk/build.mk.sample mk/build.mk
+</code></pre></div>
+<p>&nbsp;
+All of these worked with little excitement. No news is good news! Then I ran:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>./boot
+</code></pre></div>
+<p>and was given the message:</p>
+<div class="highlight"><pre><code class="language-" data-lang="">Booting libraries/time/
+Booting libraries/unix/
+Can't exec "aclocal": No such file or directory at /usr/local/Cellar/autoconf/2.69/share/autoconf/Autom4te/FileUtils.pm line 326.
+autoreconf: failed to run aclocal: No such file or directory
+Can't exec "aclocal": No such file or directory at /usr/local/Cellar/autoconf/2.69/share/autoconf/Autom4te/FileUtils.pm line 326.
+autoreconf: failed to run aclocal: No such file or directory
+Running autoreconf failed at ./boot line 217, &lt;PKGS&gt; line 12.
+</code></pre></div>
+<p>&nbsp;
+The first hit stackoverflow post suggested that I install automake, so I did.</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>brew install automake
+<span class="gp">$ </span>./boot
+</code></pre></div>
+<p>Wooh! It worked! Onward!</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>./configure
+</code></pre></div>
+<p>gave me the message:</p>
+<div class="highlight"><pre><code class="language-" data-lang="">checking for version of happy... 1.19.5
+checking for alex... no
+checking for version of alex...
+configure: error: Alex version 3.1.0 or later is required to compile GHC.
+</code></pre></div>
+<p>&nbsp;
+okay, cool, no problem, I ran:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>cabal install Alex
+<span class="gp">$ </span>./configure
+</code></pre></div>
+<p>and got the message:</p>
+<div class="highlight"><pre><code class="language-" data-lang="">config.status: creating mk/config.h
+\--------------------------------------------------------------------
+Configure completed successfully.
+   Building GHC version  : 8.1.20160724
+          Git commit id  : 4036c1f110578f8e2813295116b79a5a06e2bf59
+</code></pre></div>
+<p>&nbsp;
+Score! Go team!
+okay, now to make:</p>
+
+<p>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; Update  &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</p>
+
+<p>I didn&#39;t realize this when I originally built GHC but my build would have gone much faster if I had uncommented <code>BuildFlavor = devel2</code> in the mk/build.mk <em>before</em> running make.</p>
+
+<p>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;  &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>make -j8 <span class="c"># parallelize to at most 8 parallel jobs; adapt to actual number of cpu cores</span>
+</code></pre></div>
+<p>…wait, how many cores do I have? Quick google search turned up the command: (on osx!)</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>sysctl -n hw.ncpu
+ 4
+</code></pre></div>
+<p>Well unfortunately I was too excited and ran make before checking how many cores I had… and I didn&#39;t want to interrupt halfway through the build, so I just let it compile...
+...and half an hour later had to borrow a laptop charger because I was running down my battery by running at 100% CPU…
+About an hour later I took a look at my CPU load:</p>
+
+<p><img src="/images/ghc1.jpg" alt=""></p>
+
+<p>and found out that, since I was trying to run 8 threads on a 4 core machine, not only were the 8 parallel threads sucking all my CPU but also the OS was taking a ton of CPU to juggle them. Yikes!</p>
+
+<p>I decided to give it until 7 pm, before pulling the plug to try it again overnight with the right parallelization flag.</p>
+
+<p>6:47pm: Compilation finished! I was notified when my computer&#39;s fan turned off.</p>
+
+<p>I checked if the compilation <em>actually</em> succeeded by running:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>./inplace/bin/ghc-stage2 —interactive
+</code></pre></div>
+<p>And it worked!</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>./inplace/bin/ghc-stage2 —interactive
+GHCi, version 8.1.20160724: http://www.haskell.org/ghc/  :? <span class="k">for </span><span class="nb">help
+</span><span class="gp">Prelude&gt; </span>putStrLn <span class="s2">"yay!"</span>
+yay!
+</code></pre></div>
+<p>&nbsp;
+Yay! Onward!</p>
+
+<hr>
+
+<h1>Verifying I can modify the source</h1>
+
+<p>Okay, so before starting in on the issue I made sure I was set up to see any changes that I made actually propagate through the compiler. The issue I was looking at had to do with the &quot;relevant bindings&quot; provided in a typechecker error message, so that&#39;s where I went to make my toy change.</p>
+
+<p>First of all, before touching ANYTHING I created a new branch.</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>git checkout -b typecheck-variable-shadowing
+</code></pre></div>
+<p>Then I also updated the mk/build.mk file as recommended in the newcomers page:</p>
+
+<p>1) I uncommented <code>BuildFlavor = devel2</code></p>
+
+<p>2) also uncommented <code>stage=2</code></p>
+
+<p>I had read that GHC had a wiki, so I thought I&#39;d check out the Typechecker entry before diving in, in case it had any helpful insite:</p>
+
+<p><img src="/images/ghc2.jpg" alt=""></p>
+
+<p>Um, nevermind. Diving in!
+I got over the the typechecker directory:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span><span class="nb">cd </span>compiler/typecheck
+</code></pre></div>
+<p>and then used ack (like grep, but with pretty-printing) to find what file was producing the type error in question:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>ack <span class="s2">"Relevant bindings"</span>
+</code></pre></div>
+<p><img src="/images/ghc3.jpg" alt=""></p>
+
+<p>Stellar. I opened that file and made a minimal change- I just changed the word &quot;bindings&quot; to &quot;donuts&quot;. (I opened the typecheck directory in Sublime, and that was pretty convenient. Atom is also has good Haskell support. ) Let&#39;s see if it worked!</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span><span class="nb">cd</span> ..; make fast
+</code></pre></div>
+<p>I got this message:</p>
+<div class="highlight"><pre><code class="language-" data-lang="">libraries/ghci/ghc.mk:4: libraries/ghci/dist-install/build/.depend-v-dyn.c_asm: No such file or directory
+Configured with: --prefix=/Applications/Xcode.app/Contents/Developer/usr --with-gxx-include-dir=/usr/include/c++/4.2.1
+compiler/ghc.mk:572: compiler/stage2/build/.depend-v-dyn.haskell: No such file or directory
+compiler/ghc.mk:572: compiler/stage2/build/.depend-v-dyn.c_asm: No such file or directory
+make[2]: *** No rule to make target `compiler/stage2/build/.depend-v-dyn.c_asm'.  Stop.
+make[1]: *** [all_compiler] Error 2
+make: *** [all] Error 2
+</code></pre></div>
+<p>&nbsp;
+Hmmm, okay. So I&#39;ll try making without the fast flag:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>make
+</code></pre></div>
+<p>And that worked! It took a few minutes, I&#39;m not sure what the issue with make fast was. Okay, let&#39;s see if I can see my change:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>../inplace/bin/ghc-stage2 --interactive
+</code></pre></div>
+<p><img src="/images/screenshot1.jpg" alt=""></p>
+
+<p>&nbsp;
+Yeah! We&#39;re in business!</p>
+
+<hr>
+
+<h1>Fixing a GHC Bug!</h1>
+
+<p>Okay, so I worked on <a href="https://ghc.haskell.org/trac/ghc/ticket/12177">this bug</a>. Here&#39;s the premise: when you write a function you can leave a hole (just an underscore _ ) and when you compile GHC will throw an error that will tell you what the type of that hole is. So if you type:</p>
+<div class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="kt">Prelude</span><span class="o">&gt;</span> <span class="nf">\</span><span class="n">x</span><span class="o">-&gt;</span> <span class="s">"Hello "</span> <span class="o">++</span> <span class="kr">_</span>
+</code></pre></div>
+<p>ghci will tell you:</p>
+<div class="highlight"><pre><code class="language-" data-lang="">&lt;interactive&gt;:2:18: error:
+    • Found hole: _ :: [Char]
+    • In the second argument of ‘(++)’, namely ‘_’
+      In the expression: "Hello " ++ _
+      In the expression: \ x -&gt; "Hello " ++ _
+    • Relevant bindings include
+        x :: t (bound at &lt;interactive&gt;:2:2)
+        it :: t -&gt; [Char] (bound at &lt;interactive&gt;:2:1)
+</code></pre></div>
+<p>&nbsp;
+GHC can infer that the hole needs to have type [Char]. Cool, that could be helpful. So now the bug was that if we have a shadowed variable, then GHC was reporting the outer binding as a &quot;Relevant binding&quot; even though it couldn&#39;t possibly be relevant as it was shadowed. That probably didn&#39;t make very much sense, so here&#39;s an example. I&#39;m going to show what ghci reports, and highlight the offending line in blue:</p>
+
+<p><img src="/images/screenshot2.jpg" alt=""></p>
+
+<p>&nbsp;</p>
+
+<p>That line in blue is the binding for the outside (left-most) variable &#39;x&#39; which we can never access in the inner scope because we re-bind x in that inner context. So my task was to get the typechecker to remove that line in blue.</p>
+
+<p>So I don&#39;t really have a good summary of what I did next- but in short, I poked around the typechecker for a few hours, just trying to figure out how things work. It took some time to get accustomed to the abbreviations, <a href="https://ghc.haskell.org/trac/ghc/wiki/Commentary/Abbreviations">this source</a> has some of them. I also spent some time tracking down what types things were really- for instance, I eventually found that the structure that held the bindings was a [TcIdBinder], but to know that I had to ack and dig around files that held definitions.</p>
+
+<p>The structure I ended up working with was a [TcIdBinder], and a TcIdBinder is one of two things- a thing which has an &quot;Id&quot; or a thing that has a &quot;Name&quot;. By looking at a method that manipulated TcIdBinders I saw there was a method call to change Id&#39;s into Name&#39;s.</p>
+
+<p>So I just checked to see if Name&#39;s were shadowed.</p>
+
+<p>Except that didn&#39;t work.</p>
+
+<p>Some debugging later, I looked into where Name&#39;s were defined, and found the thing I really wanted to be comparing was the OccName (occurrence name). A few accessor functions later I had a working solution!</p>
+
+<p>If you want to more concretely see what I mean, <a href="https://phabricator.haskell.org/D2434">here&#39;s the patch</a> and you can scroll all the way down to see the code diffs.</p>
+
+<hr>
+
+<h1>Adding a test</h1>
+
+<p>Okay, now to add test cases!
+Following the &#39;<a href="https://ghc.haskell.org/trac/ghc/wiki/Building/RunningTests/Adding">adding a test</a>&#39; document in GHC, I make two new files under testsuite/tests/typecheck/should_fail:</p>
+<div class="highlight"><pre><code class="language-" data-lang="">T12117.hs       &lt;-   code goes in here
+T12117.stderr   &lt;-   error messages we hope to see go here
+</code></pre></div>
+<p>I also modified the file tests/typecheck/should_fail/all.T by adding the line:</p>
+<div class="highlight"><pre><code class="language-" data-lang="">test('T12177', normal, compile_fail, [''])
+</code></pre></div>
+<p>cool. Then I ran all the typecheck tests by going down to the typecheck directory and just running</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>make
+</code></pre></div>
+<p>I also used</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>make <span class="nv">THREADS</span><span class="o">=</span>4      -- or however many processors you actually have
+</code></pre></div>
+<p>and</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>make <span class="nv">TEST</span><span class="o">=</span>T12177
+</code></pre></div>
+<p>to only run the test that I just added. All tests passed, so I was ready to make a patch!</p>
+
+<hr>
+
+<h1>Making a patch</h1>
+
+<p>I just followed the <a href="https://ghc.haskell.org/trac/ghc/wiki/WorkingConventions/FixingBugs">instructions</a> about contributing to GHC. In reality making a patch took a lot more fiddling then the straightforward version below, but here&#39;s the summary:</p>
+
+<p>I set up an account on <a href="https://phabricator.haskell.org/">phabricator</a>.</p>
+
+<p>I set up arcanist, by first heading to a directory where I put various software that I need to clone, and then running:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>git clone https://github.com/phacility/libphutil.git
+<span class="gp">$ </span>git clone https://github.com/phacility/arcanist.git
+<span class="gp">$ </span><span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">"</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">/arcanist/bin:</span><span class="nv">$PATH</span><span class="s2">"</span>
+</code></pre></div>
+<p>&nbsp;
+I committed all my changes, trying to adhere to the git commit guideline.</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>git add -A
+<span class="gp">$ </span>git commit -m <span class="s2">"Relevant Bindings no longer reports shadowed bindings (fixes #12176)"</span>
+</code></pre></div>
+<p>&nbsp;</p>
+
+<p>Okay, and then I just ran &quot;arc diff&quot; in the root directory...
+And it failed, complaining about linting issues. I fixed them, readded the files to git and updated the commit, and reran arcanist.</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">$ </span>git add -A
+<span class="gp">$ </span>git commit --amend
+<span class="gp">$ </span>arc diff
+</code></pre></div>
+<p>&nbsp;</p>
+
+<p>That&#39;s it! Arcanist created <a href="https://phabricator.haskell.org/D2434">a new entry</a> on Phabricator for me.</p>
+
+  </article>
+
+  <div align="center">
+  	<a href="#">
+  	<i class="fa fa-arrow-circle-up fa-2x"></i>
+  	</a>
+  </div>
+
+</div>
+
+      </div>
+    </div>
+
+    <div class="footer" align="center">
+
+  Jekyll Theme by <a href=https://github.com/diezcami target="_blank">Camille Diez</a><BR />
+
+</div>
+
+
+  </body>
+
+</html>

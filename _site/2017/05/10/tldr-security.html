@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>tldr; Security</title>
+  <meta name="description" content="See something? Say something!">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/2017/05/10/tldr-security.html">
+  <link rel="alternate" type="application/rss+xml" title="/* HACK */" href="http://localhost:4000/feed.xml" />
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link href='//fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+  <link href='//fonts.googleapis.com/css?family=Open+Sans:300,700' rel='stylesheet' type='text/css'>
+</head>
+
+
+  <body>
+
+    <div class="site-header">
+
+    <nav class="site-nav">
+        
+          
+          <a class="page-link" href="/about/">whoami</a>
+          
+        
+          
+        
+          
+        
+          
+        
+    </nav>
+
+    <h1>
+     <span>
+      <a class="site-title" href="/">/* HACK */</a>
+     </span>
+    </h1>
+
+
+</div>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+     <h1 class="post-title">tldr; Security</h1>
+     <p class="post-meta">May  2017</p>
+  </header>
+
+  <article class="post-content">
+    <h2>See something? Say something!</h2>
+
+<p>In light of recent security headlines- notably <a href="https://en.wikipedia.org/wiki/WannaCry_ransomware_attack">the global ransomware virus</a> and <a href="https://www.theverge.com/2017/5/3/15534768/google-docs-phishing-attack-share-this-document-with-you-spam">the fake google doc phishing attack</a>, both of which happened this week, and <a href="https://www.incapsula.com/blog/malware-analysis-mirai-ddos-botnet.html">the large scale DDoS</a> (distributed denial of service) attack earlier this year- I&#39;ve heard a lot of security advice that I completely disagree with, so here are my two cents on the best/easiest way to keep your machines safe:</p>
+
+<p><strong>1) Keep your machine updated!</strong> This means that when your computer says &quot;should I install updates?&quot; you say YES! If you do nothing else, do this.</p>
+
+<p><strong>2) Use a password manager.</strong> I use <a href="https://1password.com/">1password</a>, but if you want a free password manager I would try <a href="https://www.lastpass.com/">lastpass</a>. Password managers are a <em>great</em> idea- more on this in a minute! It only takes an hourish to set up, and after that it takes no extra time or effort and provide <em>a lot</em> of security- totally worth it!</p>
+
+<p>Those are the big ones. I&#39;ll talk about other useful/easy security things you can do a little lower on the page, but if that&#39;s all you wanted to read, please just keep your machine up-to-date and set up a password manager!</p>
+
+<h1>Why?</h1>
+
+<h3>Keeping a patched machine</h3>
+
+<p>So here&#39;s the thing about the <a href="https://en.wikipedia.org/wiki/WannaCry_ransomware_attack">WANNACRY ransomware attack</a> this weekend- it was a vulnerability that Microsoft knew about and had patched weeks ago. The computers that were affected (reportedly 75,000 of them!!) were not updated or running a very old operating system. The difference between being vulnerable in a large attack and being immune could be updating your machine, and it&#39;s really easy to do, so please please do it.</p>
+
+<p>For the same reason it&#39;s important to be using an actively maintained operating system. Sometimes it&#39;s not possible to update your operating system because of software dependencies or old hardware, but if you can&#39;t update your operating system you&#39;re putting yourself at risk. For instance, Microsoft released <a href="https://technet.microsoft.com/en-us/library/security/mt637763.aspx">155 security updates last year</a>; so unless you have a <em>really</em> good reason, you should be using an officially maintained operating system.</p>
+
+<p>Here&#39;s how that attack worked: there was a bug in a Windows internet protocol, and this bug allowed attackers to 1) get access to the machine through the internet, and 2) get administrator privileges on the machine. This allows the attackers to encrypt all the files on the hard drive and ransom them.</p>
+
+<p>All programs have bugs; many large important programs like operating systems have important, exploitable security bugs. That&#39;s just the way it is. Security is really hard to get air-tight correct, and to err is human. There are many people who are actively looking for these bugs, and many companies will pay rewards for telling them about serious bugs first so that they can fix them.</p>
+
+<p>When a security vulnerability is made public, like the one in this ransomware attack was a few weeks ago, the affected software companies publish a patch that fixes the bug as soon as possible (often as the bug is being publicly disclosed). You can&#39;t protect against bugs that haven&#39;t been disclosed, but it&#39;s reckless to not protect against bugs that have been patched; that&#39;s why it&#39;s really important to keep your machine updated. Meaning that if you haven&#39;t updated your machine in a year, all the relevant security bugs that have been found in the last year could be used against you.</p>
+
+<h3>Passwords</h3>
+
+<p><strong>Q: Do I need to use a different password for every website?</strong>
+<strong>A: Yes</strong>, and using a <strong>password manager</strong> makes this really easy. I use <a href="https://1password.com/">1password</a> to generate a different random password for every website I use.</p>
+
+<p>You need to use unique passwords because sites that store your password get attacked, and <a href="http://fortune.com/2016/05/18/linkedin-breach-passwords-most-common/">your password might get leaked</a>. Using unique passwords minimizes damage by keeping your other accounts secure. If you use a different password for each site there&#39;s no reason to change all your passwords just because one gets hacked. If, on the other hand, you use the same password for every site and any of them get hacked, then the attacker can try logging into all your other accounts with that password. That&#39;s why it&#39;s really important to use unique passwords, and again, if you use a password manager having different passwords is effortless.</p>
+
+<p><strong>Q: What makes a secure password?</strong>
+<strong>A: Length is the most important part of a secure password.</strong> 4+ unrelated words or a long string of random characters will be more effective than replacing letters with symbols or numbers or changing your short password often.</p>
+
+<p>Here&#39;s how an attacker hacks your password: they guess-and-check your password as many times as they want in an automated way. They&#39;ll try every word in the dictionary, and variations of every word, to see if that was your password.</p>
+
+<p>Here&#39;s the problem with replacing characters in your password with numbers of special characters (like changing <code>&quot;pancake&quot;</code> into <code>&quot;p@ncak3&quot;</code>): password hackers also know these rules. They can check various spellings of words in their dictionaries. Using these replacements makes their job a little bit harder, but not much.</p>
+
+<p>So here&#39;s a better strategy: <a href="https://xkcd.com/936/">pick 4+ unrelated words</a>. Again, password managers can do this for you. I just popped mine open and it suggested &quot;folio lapel timely earwig lentil&quot;. This is a better strategy because each extra word you use makes the search exponentially more difficult (since there are way more english words than common character replacement options), so this is a <em>much</em> better defense than random character replacement.</p>
+
+<p>Another good strategy is using a long string of random characters. Again that becomes exponentially harder to hack with every additional character, and a password manager can automagically generate &amp; manage this for you.</p>
+
+<p><strong>Q: Okay, but won&#39;t a long password be annoying to type in?</strong>
+A: Password managers <strong>automatically fill in</strong> your passwords!</p>
+
+<p><strong>Q: What if I need to login on my phone?</strong>
+A: Depends on the password manager, but <strong>1password is really easy to use from my phone.</strong></p>
+
+<p><strong>Q: But what if something catastrophic happens to my password manager? Will I be locked out of everything?</strong>
+<strong>A: Know your gmail password for redundancy.</strong> I have a lot of faith in my password manager, but I&#39;m also prepared in case something goes terribly wrong and I can&#39;t access my passwords. My solution is I remember my gmail password; I can always reset all my other accounts&#39; passwords from my gmail. (This is exactly the reason it&#39;s especially important to have a strong gmail password!)</p>
+
+<p><strong>Don&#39;t keep a passwords.txt file.</strong> If you&#39;ve got a plaintext file on your computer where you write down all your passwords, that&#39;s basically exactly what a password manager does BUT a password manger will also encrypt your passwords so they&#39;re safe against attackers, generate strong passwords for you, and automatically fill them into webforms!</p>
+
+<p>In conclusion, password managers are great and <em>so</em> worth the effort of setting them up! Invest in a password manager today!</p>
+
+<h1>More security advice</h1>
+
+<p><strong>3) Phishing attacks are very effective, and hard to protect against.</strong> A phishing attack often looks like someone sending you an email that has a malicious attachment. The problem is that these attacks are often sophisticated- they may look like an email from someone in your contacts list, or from a social media site- but actually they&#39;re from an attacker trying to get you to click a link or download a virus. In my experience gmail is pretty good, but not perfect, at filtering these from your inbox; be very suspicious of any email that seems surprising or that you weren&#39;t expecting.</p>
+
+<p>One thing that helps protect against phishing attacks is always showing file extensions. Here&#39;s how to set that up <a href="https://support.microsoft.com/en-us/help/865219/how-to-show-or-hide-file-name-extensions-in-windows-explorer">on windows</a> and <a href="https://support.apple.com/kb/PH25381?locale=en_US">on mac</a>. This will let you know whether that <code>puppy.jpg</code> file is secretly a <code>puppy.jpg.exe</code> executable virus.</p>
+
+<p><strong>4) Backup your machine.</strong> This is pretty easy, <a href="https://support.apple.com/mac-backup">especially on a mac</a>. The benefit of backing up your machine is that if you do get a ransomware virus that encrypts all your files, you can say fuck you, reinstall your OS and restore from backup. They can&#39;t ransom your files because you&#39;ve got your files. This also means you won&#39;t lose all your files if someone walks away with your laptop bag at a restaurant.</p>
+
+<p><strong>5) Turn on hard disk encryption.</strong> If your hard disk is encrypted then if someone steals your laptop, your data is all garbled and therefore safe. I&#39;m including it mostly because it is <em>so</em> <a href="https://support.apple.com/en-us/HT204837">easy to do on a Mac</a> that there&#39;s no reason not to do it. You can also encrypt <a href="https://www.howtogeek.com/141953/how-to-encrypt-your-android-phone-and-why-you-might-want-to/">Android phones</a> and encryption is on by default for newer iPhones (and <a href="https://ssd.eff.org/en/module/how-encrypt-your-iphone">you can turn it on</a> on older iPhones).</p>
+
+<p><strong>6) Use 2 factor authentication.</strong> 2-Factor Authentication means that to log into an account you need to &quot;know something&quot; (your password) and also &quot;have something&quot; (usually your phone). If someone tries to log into your account from some weird non-trusted computer, the site will send a message to your phone asking if that was really you- and let the person into your account only if you say &quot;yup, that&#39;s me!&quot; You can set up 2-factor for lots of popular sites like gmail, amazon, dropbox, facebook and  twitter. It&#39;s easy to set up and will go a long way to protecting you against hackers even if they manage to get your password.</p>
+
+<p><strong>6) Use Privacy Badger &amp; an adblocker.</strong> <a href="https://www.eff.org/privacybadger">Privacy Badger</a> is a great chrome extension from EFF and it&#39;s a one-stop-shop for lots of great security / privacy settings, and I highly recommend it, especially because it&#39;s so easy to set up. Ads can sometimes be a security problem because they will sometimes run arbitrary javascript which can be malicious.</p>
+
+<p><strong>7) Use HTTPS Everywhere.</strong> HTTPS means you&#39;ve got a secure connection. There&#39;s a really awesome Chrome extension called <a href="https://www.eff.org/https-everywhere">HTTPS Everywhere</a> also from EFF that will make sure you always get the secure version of a website if one exists. This is really really especially important if you&#39;re sending credit card information or downloading anything!</p>
+
+<p>One caveat: Sometimes one of my chrome extensions will &quot;break&quot; a website, like sometimes webforms don&#39;t work correctly. When this happens I just open the page in incognito mode (which disables all extensions) and continue about my day, no sweat.</p>
+
+<h3>HTTPS &amp; Downloading anything</h3>
+
+<p>HTTPS protects you from &quot;man in the middle&quot; attacks. When you connect to a website, you and the website send &quot;packets&quot; of data back and forth which your browser uses to see what the website should look like. You can see all the packets that are flying around on your local network (from everyone connect to the same internet connection as you), so if you&#39;re interacting with a webpage without encryption I can see all the packets that you are sending and receiving.</p>
+
+<p>This has two problems- 1) I can see your data, and do things like steal your credit card information when you enter it into a website, and 2) if I&#39;m between you and the website I can intercept packets that the website sends to you and modify or replace them. This leads to really nasty attacks where you might think you&#39;re putting your password into a website but you&#39;re actually just handing your password to the man in the middle.</p>
+
+<p>HTTPS protects you from both of these problems by encrypting your communication between you and the server. This means that if anyone tries to read your messages it just looks like a meaningless jumble, and no one can send you a fake webpage because it&#39;s impossible for them to encrypt it in a way that looks the same as the real website.</p>
+
+<p><a href="https://www.eff.org/https-everywhere">HTTPS Everywhere</a> is a really awesome browser extension that will make sure you&#39;re getting the safe version of webpages you visit and can warn you if you&#39;re on an insecure webpage. It&#39;s great and I think you should get it.</p>
+
+<p>HTTPs also makes sure you&#39;re getting the download that you asked for, instead of some other file that a man-in-the-middle is handing you. This doesn&#39;t protect you from downloading something that&#39;s a virus; in general I try to be very cautious and selective about what I download. Don&#39;t download anything, especially not executables, from websites you don&#39;t trust, and be careful about links that you open.</p>
+
+<p><strong>9) Your email &amp; phone are the keys to the kingdom.</strong> One last take-away is that you probably use your email and/or your phone to authenticate all your other accounts. If one of those is compromised, the game is up. This means it is extra important to have a strong secure password on your email, and a screen lock or password on your phone. Using 2-factor authentication on your email will protect it against being hacked even if someone has your email password.</p>
+
+<h1>In conclusion</h1>
+
+<p><strong>Patch your machine &amp; use a password manager!</strong></p>
+
+<p>Good night &amp; good luck!</p>
+
+  </article>
+
+  <div align="center">
+  	<a href="#">
+  	<i class="fa fa-arrow-circle-up fa-2x"></i>
+  	</a>
+  </div>
+
+</div>
+
+      </div>
+    </div>
+
+    <div class="footer" align="center">
+
+  Jekyll Theme by <a href=https://github.com/diezcami target="_blank">Camille Diez</a><BR />
+
+</div>
+
+
+  </body>
+
+</html>
