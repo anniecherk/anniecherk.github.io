@@ -9,8 +9,8 @@ twitter_username: username
 github_username: username
 
 # Build settings
-markdown: redcarpet
+markdown: kramdown
 markdown_ext:  markdown,mkdown,mkdn,mkd,md
 
-redcarpet:
-  extensions: ["tables", "autolink", "strikethrough", "space_after_headers", "fenced_code_blocks"]
+#redcarpet:
+#  extensions: ["tables", "autolink", "strikethrough", "space_after_headers", "fenced_code_blocks"]
