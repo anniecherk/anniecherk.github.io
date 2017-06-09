@@ -187,7 +187,7 @@ An example of how I would call these tests looks like:
 
 The **benefits** of exhaustive tests is they thoroughly test constraints for at least small and relatively simple object sets.
 
-The **drawbacks** are that it's not feasible to use these tests for large object sets, and they don't test combinations of constraints. I also don't test different values except `red`. I know this seems sketchy... but with a little whitebox knowledge of the internals of the compiler, I don't think choice of value will trigger any (or many) bugs (knock on wood)
+The **drawbacks** are that it's not feasible to use these tests for large object sets, and they don't test combinations of constraints. I also don't test different values except `red`. This seems sketchy, but it blows up the search space for something that's treated very symmetrically inside the compiler. The random tests below *do* use different values, so I feel comfortable with that compromise. (knock on wood)
 
 <hr>
 
@@ -201,7 +201,7 @@ The way my random testing works is we've got all the constraints in one hat, and
 
 Some constraints/argument combos don't work together: for instance, you can't demand that you have fewer than 2 `red` values in a row, and also greater than `2` red values in a row. However, **negative testing is also valuable** so I hold on to these impossible specification files. The file the SAT solver returns should complain that it couldn't find a valid ordering, and when we validate these files there's some logic to compute whether or not we expect a negative result.
 
-Like the exhaustive tests, we choose from the testing object sets, and always use `red` and the value argument to the constraints.
+Like the exhaustive tests, we choose from the testing object sets. Unlike the exhaustive tests, we choose a value at random to be the value argument to the constraints.
 
 ```bash
 export constraint_draws = 10
