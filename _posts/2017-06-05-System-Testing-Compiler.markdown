@@ -273,6 +273,22 @@ The bash script then scrapes the `tests` directory clean.
 
 Details that I didn't think were interesting enough to include above.
 
+### The Actual Tests
+
+I've talked about the kinds of tests I *can* run, here is what my testing wrapper *actually* runs:
+
+- Exhaustive Tests
+  - For every constraint
+    - For every object test set
+- Random Tests
+  - 50 constraint draws
+    - 50 argument draws
+
+With those parameters, the random tests test 50*50 = 2,500 random configurations. I can run the random tests multiple times to increase their test coverage, because every time is a new random check in the search space. Because each run generates (and then deletes) 7,500 files, I think that's a good upper limit for the size of a single iteration of search. There's also an "over-the-weekend" mode where I'll run the random tests 100 times (or until I decide to kill the script) for 250,000 random configurations.
+
+Any test that fails is copied into the `failedTests` directory, and I can rerun that test using the "on-demand" testing mode.
+
+
 ### Object Sets for Testing
 
 I have four object sets available for testing. Each of these is "fully-crossed" as defined in the 'What My Compiler Does' section, and each one has 20 instances of each possible object.
