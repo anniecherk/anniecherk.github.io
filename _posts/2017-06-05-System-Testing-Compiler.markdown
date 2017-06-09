@@ -175,14 +175,14 @@ I test *individual constraints* "exhaustively". These are as close as I come to 
 
 Exhaustively in quotes means: exhaustively, with some caveats. Recall that constraints take arguments, and when I say "exhaustive" I mean that we'll exhaustively generate a specification file for every "important" argument to the constraint we're testing. Recall also that these specification files define which objects the constraints apply to; for testing I have 4 predefined object sets that I can choose from.
 
-First I select a constraint (like "k less than n") and an object set, and then my program fills in values to all the other arguments to that constraint. The arguments to "k less than n" are the `value` the constraint is applied to and the values of `k` and `n`. The value `n` is determined from the number of objects in the object set, and `value` is always `red`. It shouldn't matter what specific value I choose for testing, and `red` is present in every object set. The program will try every possible meaningful value of the remaining argument `k`, so I'll generate a specification file with every value from 0 to n.
+First I select a constraint (like "fewer than k out of every n") and an object set, and then my program fills in values to all the other arguments to that constraint. The arguments to "fewer than k out of every n" are the `value` the constraint is applied to and the values of `k` and `n`. The value `n` is determined from the number of objects in the object set, and `value` is always `red`. It shouldn't matter what specific value I choose for testing, and `red` is present in every object set. The program will try every possible meaningful value of the remaining argument `k`, so I'll generate a specification file with every value from 0 to n.
 
 If you want to see what these object sets look like, I've included descriptions of them in the Appendix. The take-away is they include sets of objects that reflect how the compiler works internally, so if one set of objects passes but another fails, that can be used to disprove certain classes of bugs. The final and most complicated object set should be representative of how the compiler treats arbitrarily complicated object sets.
 
 An example of how I would call these tests looks like:
 
 ```bash
-./test k-less-than-n simple-object
+./test exhaustive fewer-than-k-out-of-every-n simple-object
 ```
 
 The **benefits** of exhaustive tests is they thoroughly test constraints for at least small and relatively simple object sets.
@@ -311,7 +311,7 @@ I have four object sets available for testing. Each of these is "fully-crossed" 
 - `blue circle`
 
 
-4. A complicated object set: Each 3 fields "color", "shape", "saturation", each with 2 or 3 values: 20*12 = 240 objects in this set.
+4. A complicated object set: Each has 3 fields "color", "shape", "saturation", each with 2 or 3 values: 20*12 = 240 objects in this set.
 - `dark red circle`
 - `light red circle`
 - `dark red square`
