@@ -1,8 +1,8 @@
 # Site settings
 title: /* HACK */
-email:
+email: annie.cherk@gmail.com
 description: > # this means to ignore newlines until "baseurl:"
-  Jekyll Theme Demo
+    Beep Beep Boop Boop
 baseurl: "" # the subpath of your site, e.g. /blog/
 url: "https://anniecherkaev.com" # the base hostname & protocol for your site
 twitter_username: username

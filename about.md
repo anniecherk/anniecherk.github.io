@@ -14,4 +14,8 @@ I'm a graduate student in Computer Science at the University of Utah, working wi
 
 I attended the Recurse Center in Summer 2016, and have nothing but nice things to say about RC. If you've been thinking about applying, [you should do it](https://www.recurse.com/)!
 
-# 😟 -> 🤖 -> 😎
+# 😟 → 🤖 →  😎
+
+<p></p>
+
+This is a Jekyll website based on the theme by [Camille Diez](https://github.com/diezcami).
