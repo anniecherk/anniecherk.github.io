@@ -19,3 +19,9 @@ I attended the Recurse Center in Summer 2016, and have nothing but nice things t
 <p></p>
 
 This is a Jekyll website based on the theme by [Camille Diez](https://github.com/diezcami).
+
+-------
+
+<p></p>
+
+I endorse [Benjamin Noah Rosenberg](http://www.voterosenberg.org/) for SLC City Council District 5!
