@@ -65,31 +65,6 @@ screen -r -d myNewScreen # detaches the screen from any other shells
 
 screen -list # to see the names of all screens
 ```
-# .bashrc, .profile, .bash_profile?
-
-You can save shell configurations into a handful of files that will get read when your shell starts up. I mostly use this for setting aliases and adding directories that contain executables to my PATH so that I can run them from the interactive prompt. There are a *lot* of places you can put these configs in, here's a breakdown:
-
-**Where should configs live?**
-
-I didn't really care where my configs lived until I tried setting up [a different shell](https://fishshell.com/) and wanted my aliases & PATH amendments to transfer over. I kept all my configs in `.bash_profile` even though it doesn't look like that's what [SO recommends](https://superuser.com/questions/789448/choosing-between-bashrc-profile-bash-profile-etc). The actual relationship between all these files is [more than I care to think about most days](https://shreevatsa.files.wordpress.com/2008/03/bashstartupfiles1.png).
-
-Here's a setup that I think makes a lot of sense (with thanks to [Nicholas Sweeting!](https://github.com/pirate))
-
-- make a ~/.alias file for aliases
-- make a ~/.paths file for additions to your PATH
-- `source` those two files in ~/.bashrc (and the equivalent file for other shells)
-- anything else can go in ~/.bashrc (and the equivalent file for other shells)
-
-This setup may not be entirely portable, but I think it's clean, and it works for my purposes. I got rid of my ~/.profile & ~/.bash_profile files, and only use ~/.bashrc.
-
-
-**~/.{whatever} vs /etc/{whatever}**
-
-If you do `ls /etc/` you'll see you've got a bunch of similar looking files in /etc/ as you (might) have dot files in your home directory. A sampling includes: /etc/profile, /etc/alias, /etc/paths, /etc/bashrc.
-
-These are the config files for the entire OS. You need to be root to edit these files. The ~/.{whatever config} files in your root directory are specific to only your user.
-
-I only edit my user configs because the types of things I want to configure aren't things that other users would need. A good use-case for editing /etc/profile is if you're setting up a class server for a class in Go and you want every user to have [path where Go stores executables] configured for all users.
 
 # alias
 Alias lets you not mean what you say and not say what you mean.
