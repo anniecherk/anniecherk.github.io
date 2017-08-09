@@ -25,7 +25,7 @@ find . -not -iname "*.py" #finds all files that are *not* python files
 
 You can find files based on ownership, group, permissions, latest access / modification time / date and file size. You can also find files that *don't* match the query and you can construct more complicated queries with the "or" operator `-o`.
 
-Find can be chained together with other commands; for instance you can pass all the files you found as the input to scripts or log them to a file. You can also remove all the files that match a certain query, but chaining find & remove into a single command makes me nervous because there's no undo on rm (unless you [alias rm](https://apple.stackexchange.com/questions/17622/how-can-i-make-rm-move-files-to-the-trash-can)) so if I needed to remove all files that matched some query I would probably log them to a file first to verify they were the right files!
+Find can be chained together with other commands; for instance you can pass all the files you found as the input to scripts or log them to a file. You can also remove all the files that match a certain query, but chaining find & remove into a single command makes me nervous because there's no undo on rm (unless you [alias rm](https://apple.stackexchange.com/questions/17622/how-can-i-make-rm-move-files-to-the-trash-can)) so if I needed to remove all files that matched some query I would probably log them to a file first to verify they were the right files! 
 
 
 # grep
@@ -43,7 +43,11 @@ find . | grep "Ham*" # returns Hamlet.txt
 grep -n "sweet prince" Hamlet.txt # prints line number of query in the file
 grep -i "Good night" Hamlet.txt # case insensitive search
 grep -c "good night" Hamlet.txt # "count": reports # of lines that match query
+grep -rl "ssh" ~/.ssh/ # Finds & returns only file names of files that contain ssh
 find . | grep -v "\\.txt$" . # prints all filenames that don't end with .txt
+
+# You can chain greps together to find files that contain query1 && query2
+grep -rl "ssh" ~/.ssh/ | xargs grep -r "annie"
 ```
 
 There are also flags for specifying how many lines before & after the matched query to display.
