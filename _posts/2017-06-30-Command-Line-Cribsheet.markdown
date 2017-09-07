@@ -25,7 +25,7 @@ find . -not -iname "*.py" #finds all files that are *not* python files
 
 You can find files based on ownership, group, permissions, latest access / modification time / date and file size. You can also find files that *don't* match the query and you can construct more complicated queries with the "or" operator `-o`.
 
-Find can be chained together with other commands; for instance you can pass all the files you found as the input to scripts or log them to a file. You can also remove all the files that match a certain query, but chaining find & remove into a single command makes me nervous because there's no undo on rm (unless you [alias rm](https://apple.stackexchange.com/questions/17622/how-can-i-make-rm-move-files-to-the-trash-can)) so if I needed to remove all files that matched some query I would probably log them to a file first to verify they were the right files! 
+Find can be chained together with other commands; for instance you can pass all the files you found as the input to scripts or log them to a file. You can also remove all the files that match a certain query, but chaining find & remove into a single command makes me nervous because there's no undo on rm (unless you [alias rm](https://apple.stackexchange.com/questions/17622/how-can-i-make-rm-move-files-to-the-trash-can)) so if I needed to remove all files that matched some query I would probably log them to a file first to verify they were the right files!
 
 
 # grep
@@ -61,7 +61,7 @@ screen -S myNewScreen # create a new screen named myNewScreen
 # start some long running process & background it
 ./longRunningJob &
 
-screen -d myNewScreen # detach the screen
+screen -d # detach the current screen
 # you can now safely kill the shell without killing the process
 
 # when you log back in, reattach screen:
@@ -293,6 +293,16 @@ sort -c scrambled_alphabet.txt # checks whether is sorted
 # returns info about first unsorted line:
 #  -> sort: scrambled_alphabet.txt:2: disorder: c
 sort -c alphabet.txt # returns nothing because it *is* sorted
+```
+
+# shuf
+If you want to take a file and randomly reorder the lines:
+```bash
+shuf alphabet.txt # on linux
+```
+Or, for macOS you can use `gshuf`. You can grab it with `brew install coreutils`.
+```bash
+gshuf alphabet.txt
 ```
 
 # cut
