@@ -27,6 +27,11 @@ You can find files based on ownership, group, permissions, latest access / modif
 
 Find can be chained together with other commands; for instance you can pass all the files you found as the input to scripts or log them to a file. You can also remove all the files that match a certain query, but chaining find & remove into a single command makes me nervous because there's no undo on rm (unless you [alias rm](https://apple.stackexchange.com/questions/17622/how-can-i-make-rm-move-files-to-the-trash-can)) so if I needed to remove all files that matched some query I would probably log them to a file first to verify they were the right files!
 
+Here's a common thing I need to do: copy some file into every subdirectory:
+```bash
+#copy the file "template.txt" to all subdirs
+find . -type d -exec cp template.txt {} \;
+```
 
 # grep
 Grep lets you search file contents (and file names!), and is about the first thing I turn to when I jump into a codebase.
