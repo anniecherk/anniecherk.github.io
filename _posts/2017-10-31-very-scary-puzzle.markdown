@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "Haunted Happenings 🕷"
+title: "Midnight Mystery 👻"
 date: 2017-10-25
-permalink: haunted_happenings
+permalink: midnight_mystery
 categories: computers
 ---
 
