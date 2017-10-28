@@ -5,11 +5,22 @@ date: 2017-10-25
 permalink: midnight_mystery
 categories: computers
 ---
-
-
-
 <!-- 🔮 ⚡ 😱 💀 🤖 ⚡ 🤖 ⚡ 🤖 🎃 🍭 😱 🕷 🎃 🤖 🎃 🤖 🔮 🤖 ⚡ 😱 👹 🍭 🤖 -->
 <!-- Hello World! -->
+
+<!-- On the 1st  day of Halloween, the reaper gave to me: ⚡ -->
+<!-- On the 2nd  day of Halloween, the reaper gave to me: ⚰ -->
+<!-- On the 3rd  day of Halloween, the reaper gave to me: 🍭 -->
+<!-- On the 4th  day of Halloween, the reaper gave to me: 🎃 -->
+<!-- On the 5th  day of Halloween, the reaper gave to me: 👹 -->
+<!-- On the 6th  day of Halloween, the reaper gave to me: 💀 -->
+<!-- On the 7th  day of Halloween, the reaper gave to me: 🔮 -->
+<!-- On the 8th  day of Halloween, the reaper gave to me: 🕷 -->
+<!-- On the 9th  day of Halloween, the reaper gave to me: 😱 -->
+<!-- On the 10th day of Halloween, the reaper gave to me: 🤖 -->
+<!-- On the 11th day of Halloween, the reaper gave to me: 🤡 -->
+<!-- On the 12th day of Halloween, the reaper gave to me: 🦄 -->
+
 
 😱 🎃 🤖 🤖 🤡 ⚡ 😱 🤖 🍭 😱 🤖 ⚰ 🤖 🔮 😱 🎃 🤖 🤖 🍭 😱 😱 🔮 🍭 😱 😱 ⚰
 
