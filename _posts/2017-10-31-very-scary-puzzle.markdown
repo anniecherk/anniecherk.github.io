@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Midnight Mystery 👻"
+title: "Midnight Mystery"
 date: 2017-10-25
 permalink: midnight_mystery
 categories: computers
