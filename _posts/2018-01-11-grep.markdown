@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "some title about grep"
+title: "grep your way to freedom"
 date: 2018-01-12
 permalink: grep-your-way-to-freedom
 categories: computers
