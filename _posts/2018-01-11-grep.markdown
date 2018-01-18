@@ -60,7 +60,7 @@ a
 a
 ```
 
-So it's the case were it just terminated. Okay, well that's boring, so let's rinse and repeat by running the same command, and then printing out how many lines the file has:
+So it's the case where it just terminated. Okay, well that's boring, so let's rinse and repeat by running the same command, and then printing out how many lines the file has:
 
 ![](/images/fixed_grep0.jpg)
 
@@ -147,7 +147,7 @@ Okay, so after running that in one shell, I'll pop open another shell and repeat
 
 ![](/images/rwsnoop1.jpg)
 
-Sweet so we can see that we've got two read calls from `grep`, the first of each reads 2 bytes, the second of which reads 0 bytes. Then we've got a write of 2 bytes. That seems pretty consistent with the behavior we're seeing. Running a few more rounds:
+Sweet so we can see that we've got two read calls from `grep`, the first of which reads 2 bytes, the second of which reads 0 bytes. Then we've got a write of 2 bytes. That seems pretty consistent with the behavior we're seeing. Running a few more rounds:
 
 ![](/images/rwsnoop2.jpg)
 
