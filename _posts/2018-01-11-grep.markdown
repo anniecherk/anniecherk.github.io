@@ -62,11 +62,11 @@ a
 
 So it's the case were it just terminated. Okay, well that's boring, so let's rinse and repeat by running the same command, and then printing out how many lines the file has:
 
-![](/images/grep0.JPG)
+![](/images/fixed_grep0.jpg)
 
 And about 15 up-arrow+enters later:
 
-![](/images/grep1.JPG)
+![](/images/fixed_grep1.jpg)
 
 
 We get stuck in an infinite loop!
