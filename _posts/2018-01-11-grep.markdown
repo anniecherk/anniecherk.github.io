@@ -6,9 +6,9 @@ permalink: grep-your-way-to-freedom
 categories: computers
 ---
 
-I was recently eating lunch with someone who asked a question that I became somewhat obsessed with: what happens when you grep a file and append the contents to the same file? It's one of these nasty cases of modifying a file that you're reading from. I think the answer is rather interesting; hope you do too.
+I was recently eating lunch with someone who asked a question that I became somewhat obsessed with: what happens when you grep a file and append the contents to the same file? It's one of these nasty cases of modifying a file that you're reading from.
 
-Huge thank you to [Mehmet Emre](https://cs.ucsb.edu/~emre/) & [Antal Spector-Zabusky](https://github.com/antalsz) for also thinking this was interesting enough to pair program on!
+Huge thank you to [Mehmet Emre](https://cs.ucsb.edu/~emre/) & [Antal Spector-Zabusky](https://github.com/antalsz) for pair programming down this rabbit hole!
 
 ## Problem Spec
 To be precise, what happens when you run the following code snippet?
@@ -50,7 +50,7 @@ grep: input file 'test.txt' is also the output
 
 I was actually not expecting any implementation to do error handling like that. That's nice!
 
-If you run the BSD grep (ie, on a Mac) you get:
+If you run the BSD `grep` (ie, on a Mac) you get:
 
 ```
 $ echo "a" > test.txt
@@ -101,13 +101,13 @@ while ((nr = read(rfd, buf, bsize)) > 0)
       err(1, "stdout");
 ```
 
-So we've got a while loop, where we read into a buffer. If we read any non-zero number of bytes, we go into a for loop where we drain the buffer by doing writes. Once we've drained the buffer, we'll go back up to the while loop, which will do another read into the buffer, and, if we read anything we'll keep going.
+So we've got a while-loop, where we read into a buffer. If we read any non-zero number of bytes, we go into a for-loop where we drain the buffer by doing writes. Once we've drained the buffer, we'll go back up to the while loop, which will do another read into the buffer, and, if we read anything we'll keep going.
 
 So just to be really pedantic here, the reason `cat` gets stuck is that, according to [the man page for `write`](https://linux.die.net/man/2/write)
 
 > POSIX requires that a read(2) which can be proved to occur after a write() has returned returns the new data.
 
-which means that when we do the `write` in that for-loop, we're guaranteed that the `read` which happens after in the while-loop must see the result of that write. So: we read an "a", write an "a", and when we get back to the while-loop we're guaranteed that the next read will see that "a" we just wrote.
+which means that when we do the `write` in that for-loop, we're guaranteed that the `read` which happens after in the while-loop must see the result of that `write`. So: we read an "a", write an "a", and when we get back to the while-loop we're guaranteed that the next read will see that "a" we just wrote.
 
 Which is why we get stuck in an infinite loop off the bat.
 
@@ -123,7 +123,7 @@ If we run grep with the line-buffered flag then we get the same behavior as `cat
 
 ## Line buffering
 
-So if we check the [grep source](https://opensource.apple.com/source/text_cmds/text_cmds-99/grep/grep.c.auto.html) for something about line buffering, we'll find that the --line-buffered flag calls something called `setlinebuf`
+So if we check the [grep source](https://opensource.apple.com/source/text_cmds/text_cmds-99/grep/grep.c.auto.html) for something about line buffering, we'll find that the `--line-buffered` flag calls something called `setlinebuf`
 
 ```c
 	if (lbflag)
@@ -134,13 +134,13 @@ So if we check the [grep source](https://opensource.apple.com/source/text_cmds/t
 
 > line buffered characters are saved up until a newline is output or input is read from any stream attached to a terminal device (typically stdin).
 
-Cool. So if it spins with the --line-buffered flag, then probably what's causing that is that the *write buffer* is being flushed rather than the read buffer. To verify this, let's snoop on the read & write calls. On mac I'll call
+Cool. So if it spins with the `--line-buffered` flag, then probably what's causing that is that the *write buffer* is being flushed rather than the read buffer. To verify this, let's snoop on the read & write calls. On mac I'll call
 
 ```bash
 sudo rwsnoop -n grep
 ```
 
-to start watching for read/write calls; this will give me info about any read/write calls that grep performs. On Linux you can use strace. (Sidenote: you'll need to [let dtrace through SIP](https://apple.stackexchange.com/questions/208762/now-that-el-capitan-is-rootless-is-there-any-way-to-get-dtrace-working) to get this to work)
+to start watching for read/write calls; this will give me info about any read/write calls that grep performs. On Linux you can use `strace`. (Sidenote: you'll need to [let `dtrace` through SIP](https://apple.stackexchange.com/questions/208762/now-that-el-capitan-is-rootless-is-there-any-way-to-get-dtrace-working) to get this to work)
 
 Okay, so after running that in one shell, I'll pop open another shell and repeat this whole grep experiment from the beginning.
 
@@ -162,9 +162,9 @@ When we do start looping, we do three reads of size 32KB and then a 64KB write; 
 
 ## grep source
 
-First up: what's grep doing? Well if we look [at the main](https://opensource.apple.com/source/text_cmds/text_cmds-99/grep/grep.c.auto.html) it just processes a ton of flags, and then (very near the bottom) calls `procfile`.
+First up: what's `grep` doing? Well if we look [at the `main`](https://opensource.apple.com/source/text_cmds/text_cmds-99/grep/grep.c.auto.html) it just processes a ton of flags, and then (very near the bottom) calls `procfile`.
 
-Procfile is in [util.c](https://opensource.apple.com/source/text_cmds/text_cmds-99/grep/util.c.auto.html) along with just about everything else we're going to care about. Procfile does two things we care about, first it calls grep_open (which will read the file) and then procline (which will write the results).
+`procfile` is in [util.c](https://opensource.apple.com/source/text_cmds/text_cmds-99/grep/util.c.auto.html) along with just about everything else we're going to care about. `procfile` does two things we care about, first it calls `grep_open` (which will read the file) and then `procline` (which will write the results).
 
 ```c
 /*
@@ -184,7 +184,7 @@ procfile(const char *fn)
 
 #### Where grep reads
 
-grep_open is in [file.c](https://opensource.apple.com/source/text_cmds/text_cmds-99/grep/file.c.auto.html). grep_open calls grep_refill:
+`grep_open` is in [file.c](https://opensource.apple.com/source/text_cmds/text_cmds-99/grep/file.c.auto.html). `grep_open` calls `grep_refill`:
 
 ```c
 /*
@@ -199,7 +199,7 @@ grep_open(const char *path)
 
 ```
 
-grep_refill does a read into a buffer:
+`grep_refill` does a read into a buffer:
 
 ```c
 grep_refill(struct file *f)
@@ -207,7 +207,7 @@ grep_refill(struct file *f)
   nr = read(f->fd, buffer, MAXBUFSIZ);
 ```
 
-MAXBUFSIZ is defined at the top of this file:
+`MAXBUFSIZ` is defined at the top of this file:
 
 ```c
 #define	MAXBUFSIZ	(32 * 1024)
@@ -223,7 +223,7 @@ To recap, here's the control flow:
 
 #### Where grep writes
 
-From before, recall that procfile, called procline. procline eventually calls printline:
+From before, recall that `procfile`, called `procline`. `procline` eventually calls `printline`:
 
 ```c
 /*
@@ -239,7 +239,7 @@ procline(struct str *l, int nottext)
   ...
   printline(l, ':', matches, m);
 ```
-which, if you scroll all the way down, on the penulitimate line, calls fwrite:
+which, if you scroll all the way down, on the penulitimate line, calls `fwrite`:
 
 ```c
 /*
@@ -253,7 +253,7 @@ printline(struct str *line, int sep, regmatch_t *matches, int m)
   putchar('\n');
 ```
 
-So where `cat` was doing an honest-to-god "write", grep goes through "fwrite". So whatever buffer size we're using is somehow tied up in the fwrite source.
+So where `cat` was doing an honest-to-god `write`, grep goes through `fwrite`. So whatever buffer size we're using is somehow tied up in the `fwrite` source.
 
 To summarize, here's the control flow:
 
@@ -261,19 +261,19 @@ To summarize, here's the control flow:
 
 ## fwrite buffer size
 
-Figuring out where fwrite set it's buffer size was more challenging- props here to Mehmet for his spelunking skills. Here I'll show you the relevant control flow up front:
+Figuring out where `fwrite` sets it's buffer size was more challenging- props here to Mehmet for his spelunking skills. Here I'll show you the relevant control flow up front:
 
 `fwrite --> __sfvwrite --> prep_write --> __swsetup --> smakebuf --> __swhatbuf`
 
 
-I won't walk you through all those layers of control flow but you can definitely check it out yourself if you want; starting at [fwrite](https://opensource.apple.com/source/Libc/Libc-167/stdio.subproj/fwrite.c.auto.html) and ending at [__swhatbuff](https://opensource.apple.com/source/Libc/Libc-1244.1.7/stdio/FreeBSD/makebuf.c.auto.html).
+I won't walk you through all those layers of control flow but you can definitely check it out yourself if you want; starting at [`fwrite`](https://opensource.apple.com/source/Libc/Libc-167/stdio.subproj/fwrite.c.auto.html) and ending at [`__swhatbuff`](https://opensource.apple.com/source/Libc/Libc-1244.1.7/stdio/FreeBSD/makebuf.c.auto.html).
 
 
 
 
-**Interesting Side-note!** The implementation of `makebuf.c` in the latest apple OS (High Sierra) is *rather different* than in the implementation in [an older version](https://opensource.apple.com/source/Libc/Libc-167/stdio.subproj/makebuf.c.auto.html). Perhaps because Apple redid their file system for High Sierra? I know this because I went through an existential crisis (is everything I know a lie?) trying to figure out why the behavior I was seeing was inconsistent with the source code before I figured out it was the wrong version!
+**Interesting Side-note!** The implementation of makebuf.c in the latest apple OS (High Sierra) is *rather different* than in the implementation in [an older version](https://opensource.apple.com/source/Libc/Libc-167/stdio.subproj/makebuf.c.auto.html). Perhaps because Apple redid their file system for High Sierra? I know this because I went through an existential crisis (is everything I know a lie?) trying to figure out why the behavior I was seeing was inconsistent with the source code before I figured out it was the wrong version!
 
-Okay, anyways, let's take a look at the \_\_swhatbuff that's in High Sierra, because that's what I'm running:
+Okay, anyways, let's take a look at the `__swhatbuff` that's in High Sierra, because that's what I'm running:
 
 ```c
 #ifdef FEATURE_SMALL_STDIOBUF
@@ -330,7 +330,7 @@ or to
 
 `st.st_blksize`
 
-And actually, the top of the file says MAXBUFSIZE is 1 << 16 (which is 64KB) so we're golden. For fun we can check that the st_blksize is larger than 64KB to be sure that's the branch we're taking. A quick c script that looks a lot like __swhatbuf will do the trick:
+And actually, the top of the file says `MAXBUFSIZE` is `1 << 16` (which is 64KB) so we're golden. For fun we can check that the st_blksize is larger than 64KB to be sure that's the branch we're taking. A quick c script that looks a lot like `__swhatbuf` will do the trick:
 
 ```c
 #include <sys/types.h>
