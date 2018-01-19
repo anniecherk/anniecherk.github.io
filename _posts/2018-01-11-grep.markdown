@@ -22,7 +22,7 @@ grep "a" test.txt >> test.txt
 ```
 Okay before you run it, what are some reasonable things that *could* happen? And which of those do you think actually happens?
 
-This nice photo is here to avoid giving it away in case you want to think about it... scroll on for some possible answers.
+This nice photo (of the magical [Zion Narrows!](https://www.nps.gov/zion/planyourvisit/thenarrows.htm)) is here to avoid giving it away in case you want to think about it... scroll on for some possible answers.
 
 ![](/images/narrows.JPG)
 
@@ -266,22 +266,38 @@ Figuring out where fwrite set it's buffer size was more challenging- props here 
 `fwrite --> __sfvwrite --> prep_write --> __swsetup --> smakebuf --> __swhatbuf`
 
 
-I won't walk you through all those layers of control flow but you can definitely check it out yourself if you want; starting at [fwrite](https://opensource.apple.com/source/Libc/Libc-167/stdio.subproj/fwrite.c.auto.html) and ending at [__swhatbuff](https://opensource.apple.com/source/Libc/Libc-167/stdio.subproj/makebuf.c.auto.html).
-let's take a look at __swhatbuff:
+I won't walk you through all those layers of control flow but you can definitely check it out yourself if you want; starting at [fwrite](https://opensource.apple.com/source/Libc/Libc-167/stdio.subproj/fwrite.c.auto.html) and ending at [__swhatbuff](https://opensource.apple.com/source/Libc/Libc-1244.1.7/stdio/FreeBSD/makebuf.c.auto.html).
+
+
+
+
+**Interesting Side-note!** The implementation of `makebuf.c` in the latest apple OS (High Sierra) is *rather different* than in the implementation in [an older version](https://opensource.apple.com/source/Libc/Libc-167/stdio.subproj/makebuf.c.auto.html). Perhaps because Apple redid their file system for High Sierra? I know this because I went through an existential crisis (is everything I know a lie?) trying to figure out why the behavior I was seeing was inconsistent with the source code before I figured out it was the wrong version!
+
+Okay, anyways, let's take a look at the \_\_swhatbuff that's in High Sierra, because that's what I'm running:
 
 ```c
+#ifdef FEATURE_SMALL_STDIOBUF
+# define MAXBUFSIZE	(1 << 12)
+#else
+# define MAXBUFSIZE	(1 << 16)
+#endif
+
+#define TTYBUFSIZE	4096
+
+...
+
 /*
  * Internal routine to determine `proper' buffering for a file.
  */
 int
 __swhatbuf(fp, bufsize, couldbetty)
-	register FILE *fp;
+	FILE *fp;
 	size_t *bufsize;
 	int *couldbetty;
 {
 	struct stat st;
 
-	if (fp->_file < 0 || fstat(fp->_file, &st) < 0) {
+	if (fp->_file < 0 || _fstat(fp->_file, &st) < 0) {
 		*couldbetty = 0;
 		*bufsize = BUFSIZ;
 		return (__SNPT);
@@ -296,46 +312,25 @@ __swhatbuf(fp, bufsize, couldbetty)
 
 	/*
 	 * Optimise fseek() only if it is a regular file.  (The test for
-	 * __sseek is mainly paranoia.)  It is safe to set _blksize
+	 * \_\_sseek is mainly paranoia.)  It is safe to set _blksize
 	 * unconditionally; it will only be used if __SOPT is also set.
 	 */
-	*bufsize = st.st_blksize;
-	fp->_blksize = st.st_blksize;
+	fp->_blksize = *bufsize = st.st_blksize > MAXBUFSIZE ? MAXBUFSIZE : st.st_blksize;
 	return ((st.st_mode & S_IFMT) == S_IFREG && fp->_seek == __sseek ?
 	    __SOPT : __SNPT);
 }
+
 ```
 
-What I think is going on here is that we're setting \*bufsize which is being "returned" to the caller through the pointer. Here we set \*bufsize to 2 different options depending on things, either to
+What I think is going on here is that we're setting \*bufsize which is being "returned" to the caller through the pointer. The first two "ifs" don't apply to us- we're not dealing with an empty file, and we're not a character device. So in the final block of code, we set \*bufsize to 2 different values depending on whether `st.st_blksize > MAXBUFSIZE`, either to
 
-`*bufsize = BUFSIZ;`
+`MAXBUFSIZE`
 
 or to
 
-`fp->_blksize = st.st_blksize;`
+`st.st_blksize`
 
-We can check BUFSIZ in stdio.h (and by-the-way, those weird SOPT, SNPT things we saw are also in stdio):
-
-```c
-#define	BUFSIZ		1024
-...
-#define	__SOPT	0x0400		/* do fseek() optimisation */
-#define	__SNPT	0x0800		/* do not do fseek() optimisation */
-```
-
-Okay, well we saw that it switch behavior at 64KB, not 1KB, so hopefully what's going on is it's setting the buffer from the blocksize.
-
-```bash
-$ stat -f "%k" .
-4194304
-```
-
-So that's waaay bigger than the size we were seeing. [Stack overflow](https://apple.stackexchange.com/questions/310917/mac-high-sierra-file-system-block-size) explains:
-
-> The command "stat -f %k ." does not as such give you the block size on disk, but rather it is a guide from the OS to user programs as to how large amounts of data at a time it should transfer to/from disk for optimal performance.
-With modern SSDs it is not uncommon for that value to be 4 MB as you indicate, instead of the 4 kB that was a kind of "default value" for many years, and not really observed by user space programs anyway.
-
-Okay, well that makes sense I guess, so, let's just run a quick c script to get the blocksize the same way that \_\_swhatbuff is doing.  
+And actually, the top of the file says MAXBUFSIZE is 1 << 16 (which is 64KB) so we're golden. For fun we can check that the st_blksize is larger than 64KB to be sure that's the branch we're taking. A quick c script that looks a lot like __swhatbuf will do the trick:
 
 ```c
 #include <sys/types.h>
@@ -361,9 +356,10 @@ $ gcc deleteme.c & ./a.out
 st_blksize was: 4194304
 ```
 
-So... I have no idea what's going on. Any ideas on how to find why the buffer size is being set to 64KB?
+Sweet, so st_blksize is 4MB which is definitely bigger than 64KB. So that's why that's the transition point between terminating & going into an infinite loop! 🎉
 
-## Conclusion
+
+## Conclusions
 
 1) Weird things happen when you read from files you write from.
 
@@ -371,15 +367,10 @@ So... I have no idea what's going on. Any ideas on how to find why the buffer si
 
 3) It's rad that you can read opensource code to figure out exactly what's going on.
 
-4) I still have no idea why on mac the write buffersize is 64KB. I'll hopefully figure it out at some point and update this article because how unsatisfying is that?
-
 
 ## Appendix
 
-1) I was looking at both the freebsd & apple's open source implementations of `fwrite` and they were almost identical... except that freebsd's version has both an integer overflow check & a lock. It's a little alarming that apple's version is missing those...it'd be interesting to see if you can get some weird behavior to trigger.
+I was looking at both the freebsd & apple's open source implementations of `fwrite` and they were almost identical... except that freebsd's version has both an integer overflow check & a lock. It's a little alarming that apple's version is missing those...it'd be interesting to see if you can get some weird behavior to trigger.
 
 
 ![](/images/mildly_alarming.jpg)
-
-
-2) You can build bsd's grep on a linux machine, and run the same experiments... and you get the same results *except* that the size at which it changes from terminating to looping is different! This is because the blocksize is different! And frustratingly, on linux, running `stat` gives you a result that's consistent with the write buffer size.
