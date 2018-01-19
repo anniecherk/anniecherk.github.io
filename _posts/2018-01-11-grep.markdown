@@ -365,7 +365,7 @@ Sweet, so st_blksize is 4MB which is definitely bigger than 64KB. So that's why 
 
 2) The behaviors we saw had to do with buffering of the write buffer.
 
-3) It's rad that you can read opensource code to figure out exactly what's going on.
+3) It's rad that you can read open-source code to figure out exactly what's going on. Grep your way to freedom!
 
 
 ## Appendix
@@ -374,3 +374,7 @@ I was looking at both the freebsd & apple's open source implementations of `fwri
 
 
 ![](/images/mildly_alarming.jpg)
+
+-------
+
+Thanks also to [Dan Luu](https://danluu.com/) & [Vaibhav Sagar](http://vaibhavsagar.com/) for their feedback on a draft, and to [Tobin Yehle](http://tobin.yehle.io/pottery) for both proofreading a draft and figuring out I was looking at the wrong version of the makebuf.c file!
