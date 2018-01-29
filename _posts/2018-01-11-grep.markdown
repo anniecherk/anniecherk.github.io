@@ -266,14 +266,14 @@ Figuring out where `fwrite` sets it's buffer size was more challenging- props he
 `fwrite --> __sfvwrite --> prep_write --> __swsetup --> smakebuf --> __swhatbuf`
 
 
-I won't walk you through all those layers of control flow but you can definitely check it out yourself if you want; starting at [`fwrite`](https://opensource.apple.com/source/Libc/Libc-167/stdio.subproj/fwrite.c.auto.html) and ending at [`__swhatbuff`](https://opensource.apple.com/source/Libc/Libc-1244.1.7/stdio/FreeBSD/makebuf.c.auto.html).
+I won't walk you through all those layers of control flow but you can definitely check it out yourself if you want; starting at [`fwrite`](https://opensource.apple.com/source/Libc/Libc-167/stdio.subproj/fwrite.c.auto.html) and ending at [`__swhatbuf`](https://opensource.apple.com/source/Libc/Libc-1244.1.7/stdio/FreeBSD/makebuf.c.auto.html).
 
 
 
 
 **Interesting Side-note!** The implementation of makebuf.c in the latest apple OS (High Sierra) is *rather different* than in the implementation in [an older version](https://opensource.apple.com/source/Libc/Libc-167/stdio.subproj/makebuf.c.auto.html). Perhaps because Apple redid their file system for High Sierra? I know this because I went through an existential crisis (is everything I know a lie?) trying to figure out why the behavior I was seeing was inconsistent with the source code before I figured out it was the wrong version!
 
-Okay, anyways, let's take a look at the `__swhatbuff` that's in High Sierra, because that's what I'm running:
+Okay, anyways, let's take a look at the `__swhatbuf` that's in High Sierra, because that's what I'm running:
 
 ```c
 #ifdef FEATURE_SMALL_STDIOBUF
@@ -361,7 +361,7 @@ Sweet, so st_blksize is 4MB which is definitely bigger than 64KB. So that's why 
 
 ## Conclusions
 
-1) Weird things happen when you read from files you write from.
+1) Weird things happen when you read from files you write to.
 
 2) The behaviors we saw had to do with buffering of the write buffer.
 
