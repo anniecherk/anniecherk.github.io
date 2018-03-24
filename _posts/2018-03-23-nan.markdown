@@ -86,7 +86,7 @@ This means the official suggestion in the floating point standard is to leave a 
 
 This is really the question I'm interested in; or, rather, the slight refinement: what *have* people done with the payload?
 
-The most satisfying answer that I found to this question is, people have used the NaN payload to pass around data & type information in dynamically typed languages, including implementations in Lua and Javascript. We'll take a look at one of these implementations in detail in just a moment.
+The most satisfying answer that I found to this question is, people have used the NaN payload to pass around data & type information in dynamically typed languages, including implementations in Lua and Javascript. Why dynamically typed languages? Because if your language is dynamically typed, then the type of a variable can change at runtime, which means you absolutely must also pass around some type information; the NaN payload is an opportunity to store both that type information and the actual value. We'll take a look at one of these implementations in detail in just a moment.
 
 I tried to track down other uses but didn't find much else; [this textbook](https://koclab.cs.ucsb.edu/teaching/cs16/docx/FloatingPointNumbers.pdf) has some suggestions (page 86):
 
@@ -220,6 +220,12 @@ So, putting it all together, a complete picture of the bit pattern encodings in 
 
 
 <br/>
+
+## Take-Aways
+
+1. The floating point spec leaves a *lot* of room for NaN payloads. It does this intentionally.
+2. What are these payloads used for in real life? Mostly, I don't know what they're used for. If you know of other real world uses, I'd love to hear from you.
+3. One use is NaN-boxing, which is where you stick all the other non-floating point values in a language + their type information into the payload of NaNs. It's a beautiful hack.
 
 -----
 ### Appendix: to NaNbox or to not NaNbox
