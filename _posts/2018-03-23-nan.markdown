@@ -219,13 +219,15 @@ So, putting it all together, a complete picture of the bit pattern encodings in 
 >     *     Integer   {  FFFF:0000:IIII:IIII
 
 
-<br/>
 
-## Take-Aways
+
+# Take-Aways
 
 1. The floating point spec leaves a *lot* of room for NaN payloads. It does this intentionally.
 2. What are these payloads used for in real life? Mostly, I don't know what they're used for. If you know of other real world uses, I'd love to hear from you.
 3. One use is NaN-boxing, which is where you stick all the other non-floating point values in a language + their type information into the payload of NaNs. It's a beautiful hack.
+
+<br/>
 
 -----
 ### Appendix: to NaNbox or to not NaNbox
