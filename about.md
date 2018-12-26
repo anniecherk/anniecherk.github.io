@@ -7,10 +7,15 @@ permalink: /about/
 ![](/images/whoami.jpg)
 
 
+### Hello World
 
-Hey there!
+<p></p>
 
-I'm a graduate student in Computer Science at the University of Utah, working with [Dr. Vivek Srikumar](http://svivek.com/). I'm currently working on SweetPea, a programming language for experimental design with [Dr. Vivek Srikumar](http://svivek.com/), [Dr. Matthew Flatt](https://www.cs.utah.edu/~mflatt/) & [Dr. Jonathon Cohen](https://webapps.pni.princeton.edu/ncc/JDC/Home_Page.html). In the past I've also dabbled in research in [data visualization](https://github.com/Caleydo/lineage) with [Dr. Alex Lex](http://alexander-lex.net/), matrix analysis with [Dr. Charles Johnson](http://www.wm.edu/as/mathematics/faculty-directory/johnson_c.php), and astronomy with [Dr. Adam Bolton](http://www.physics.utah.edu/~bolton/Home.html).
+I'm a computer scientist broadly interested in systems, security and programming languages. 
+
+I recently graduated with my masters in Computer Science from the University Utah, where I was advised by [Vivek Srikumar](http://svivek.com/). I designed and implemented SweetPea, a nascent programming language for experimental design, in collaboration with [Matthew Flatt](https://www.cs.utah.edu/~mflatt/), [Jonathan Cohen](https://webapps.pni.princeton.edu/ncc/JDC/Home_Page.html), [Sebastian Musslick](https://smusslick.com/) & [Ben Draut](https://github.com/drautb).
+
+I'll be joining [Galois](https://galois.com) in 2019.
 
 I attended the Recurse Center in Summer 2016, and have nothing but nice things to say about RC. If you've been thinking about applying, [you should do it](https://www.recurse.com/)!
 
