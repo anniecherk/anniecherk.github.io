@@ -1,0 +1,118 @@
+---
+layout: post
+title: "What are numbers"
+date: 2020-01-08
+permalink: what-are-numbers
+categories: computers
+---
+
+This is a survey of many different ways to think about numbers, stemming from both Math and Computer Science.
+
+Does that sound boring? Well hear me out, it'll be a wirlwind tour from Math History to Analysis to Number Theory to Architecture to Cryptography to Security to Distributed Systems to Information Theory-- there's something for everyone. We'll even use the word "Blockchain". Some highlights will include thinking about:
+
+* Numbers as glyphs
+* Numbers as asymptotes of sequences
+* Numbers as computations
+* Numbers as a length of time of a computation
+* Numbers as a set and some operators
+* Numbers as bit-patterns
+
+Here's the plan; below is the road map of everything we're going to touch on. For each topic, I'm *not* going to explain what it is but I'll highlight what's good about it and drop some links if you want to know more. There's no reason to read it top-to-bottom and all the way through; flex those free will muscles and jump to whatever catches your fancy. 🔭😍
+
+**Table of Contents**
+
+#### Part 1: Counting Numbers 🧮0️⃣1️⃣2️⃣3️⃣4️⃣5️⃣6️⃣7️⃣8️⃣9️⃣🧮
+* Math: Numeral Systems
+* Math: Peano's Axioms
+* Math: Modular Arithmetic
+* Math: Every Number's Interesting
+* CS: Integers, two's complement
+* CS: Integer overflow & bigInts
+* CS: Integer overflow sanitization
+* CS: Church numerals
+
+#### Part 2: Numbers with a decimal part 🌘🕜🕞🕥🌒
+* Math: Rationals
+* Math: Dedekind Cuts
+* Math: Other Constructions of the Reals
+* CS: Fixed Point, Historic & Contemporary
+* CS: Floating Point
+* CS: Floating Point, Weird Edgecases (NaN & Subnormals)
+
+#### Part 3: Higher dimensional numbers 🎰🍻🎂🔗
+* Math: Complex Numbers, History
+* Math: Complex Numbers as 2D matrices
+* Math: Complex Numbers, Geometric Representation
+* Math: Vectors as High Dimensional Numbers
+* CS: Sparse & Dense Vector Formats
+* CS: Vectors & SIMD Processing
+
+#### Part 4: Things get weird 🤨🐴🐴🐴🦄🐴
+* Math: Polynomials are Vectors
+* Math: Matrices are Groups
+* Math: Groups & Rings & Fields
+* Math: Computable Numbers
+* Math: Logic
+* Math: Error Reducing Codes
+* Crypto: Groups Revisited
+* Crypto: Timing Attacks
+* CS: Numeric Instability, condition number of a matrix
+* CS: Tensors-- problems get np hard
+* CS: Compression
+* CS: Multithreading (Atomic Updates)
+* CS: Distributed Counting, Consistent & Eventually Consistent
+* CS: Beyond Church Numerals: Counting with Circuit Encodings
+* CS: Unsafe Counting with Distributed Blockchains
+* CS: What is Physical RAM
+
+🏔🏔 **CHOOSE YOUR OWN ADVENTURE** 🌋🌋
+
+# Part 1: Counting Numbers
+
+### Math: Numeral Systems
+First things first, let's talk about how counting numbers are 0, 1, 2, 3, etc. These is the [Hindu-Arabic representation](https://en.wikipedia.org/wiki/Hindu%E2%80%93Arabic_numeral_system) of numbers.
+
+For more info, see: [Numeral Systems](https://en.wikipedia.org/wiki/Numeral_system)
+
+### Math: Peano's axioms
+asdf
+
+## Math: Modular arithmetic
+asdf
+
+## CS: Integers, representation
+asdf
+
+## CS: Integer overflow & solution "bigint"
+asdf
+
+## CS: Church numerals
+asdf
+
+# Part 2: Numbers with a decimal part
+
+# Part 3: Higher dimensional numbers
+
+# Part 4: Things get weird
+
+
+
+# Formatting notes
+
+[IEEE 754-2008](http://eng.umb.edu/~cuckov/classes/engin341/Reference/IEEE754.pdf)
+
+![](/images/floating_point_density.jpg)
+
+```
+1 sign bit | 5 exponent bits | 11 mantissa bits
+S            E E E E E         M M M M M M M M M M M
+```
+
+**Sidenote:**
+
+*emph*
+
+>  quote
+
+<br/>
+-----
