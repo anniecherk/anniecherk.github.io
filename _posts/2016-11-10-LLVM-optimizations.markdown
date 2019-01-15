@@ -2,7 +2,7 @@
 layout: post
 title: "LLVM Optimizations"
 date: 2016-11-10
-permalink: llvm-optimizations
+%permalink: llvm-optimizations
 categories: computers
 ---
 # What you see is not what you get
