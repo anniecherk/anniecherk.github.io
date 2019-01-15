@@ -2,7 +2,8 @@
 layout: post
 title: "LLVM Optimizations"
 date: 2016-11-10
-categories:
+permalink: llvm-optimizations
+categories: computers
 ---
 # What you see is not what you get
 
@@ -81,14 +82,11 @@ Here's the LLVM IR that Clang compiles them to. Ready for a screenful of assembl
 
 Here's some interesting things to notice about the above code!
 
-### Clang did some optimization!
-The assembly for gcd1 and gcd3 is identical! That's really cool! This means that Clang figured out that the recursion in gcd3 could be rewritten as the while loop in gcd1.
+%%%%%%   update (01/2019)  %%%%%%
 
-I think the lesson here is that optimization happens on so many levels- you can optimize your high level code, but the front-end compiler like Clang will also try to optimize it, then LLVM will try to optimize the IR, the various backends [will try to optimize the machine specific code](https://en.wikipedia.org/wiki/FMA_instruction_set). And finally, [your hardware is optimized](https://en.wikipedia.org/wiki/Hyper-threading) in lots of really awesome ways!
+When I published this blogpost (11/2016) I wrote that IR generated for gcd1 & gcd3 was the same-- it's definitely not. It's similar, because the algorithms are similar, but not the same. gcd1 loops: `br label %6 / br i1 %8, label %9...`, gcd2 has a recursive function call: `call i32 @gcd3(...`. Thanks to Billy Tetrud for pointing out my mistake.
 
-This means that by the time your C code is actually passed to hardware as, say x86, it's been written and rewritten by many hands. This is, of course, both a blessing and a burden. On one hand, this modularization is both absolutely necessary and also delightful. You don't have time to be an expert at everything, and you probably don't want to be. On the other hand, it's that many more opportunities for bugs. What you see is not what you get.
-
-Okay, back to the IR!
+%%%%%%%%%%%%%%%%%%%%%%%
 
 ### SSA and The Disposable Variable
 Okay, so see all the `%1 = ..., %2 = .., %3 = ...`, etc assignments? Recall that SSA is Static Single Assignment- this is the single assignment part! In the LLVM IR we have an infinite number of registers, so we never need to reuse them. This makes lots of analyses much easier because you don't have to worry about when which registers change! The backends handle mapping to physical registers so.. its someone else's problem :)
@@ -113,7 +111,7 @@ some_function_call( y );
 When we get to the code at the bottom of the if statement, we need to know which value of y we need to use, and we signify that the control flow *merges* back together with a phi node. The phi node goes at the top of the basic block, and selects the correct value for y.
 
 ## Okay finally! The optimizations!
-Since Clang compiled gcd1 and gcd3 to the same IR, we'll just look at what optimizations LLVM can pull out of gcd1 and gcd2.
+%% Update (01/19): Again, gcd1 and gcd3 don't produce the same IR, but here we'll just look at the optimizations LLVM applies to gcd1 & gcd2 because when I wrote this I thought they did. %%
 
 We're going to look at side-by-side diffs of the IR for the two functions. I'm just warning you because you're about to get screenfuls of assembly again. Ready?
 
