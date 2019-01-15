@@ -3,7 +3,7 @@ layout: post
 title: "Contributing to GHC"
 date: 2016-07-10
 permalink: projects/contributing-to-ghc
-categories:
+categories: computers
 ---
 
 
@@ -91,11 +91,11 @@ Configure completed successfully.
 Score! Go team!
 okay, now to make:
 
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; Update  <<<<<<<<<
+%%%%%%   update (02/2017)  %%%%%%
 
 I didn't realize this when I originally built GHC but my build would have gone much faster if I had uncommented `BuildFlavor = devel2` in the mk/build.mk *before* running make.
 
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;  <<<<<<<<<
+%%%%%%%%%%%%%%%%%%%%%%%
 
 ```bash
 $ make -j8 # parallelize to at most 8 parallel jobs; adapt to actual number of cpu cores
