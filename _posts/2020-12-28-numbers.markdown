@@ -4,6 +4,7 @@ title: "On Numbers, and Counting"
 date: 2040-01-03
 permalink: what-are-numbers
 categories: computers
+published: false
 ---
 
 This is a survey of many different ways to think about numbers and how to count them, rooted in both Math and Computer Science.
