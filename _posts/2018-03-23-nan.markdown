@@ -8,6 +8,13 @@ categories: computers
 
 The floating point standard defines a special value called Not-a-Number (NaN) which is used to represent, well, values that aren't numbers. Double precision NaNs come with a payload of 51 bits which can be used for whatever you want-- one especially fun hack is using the payload to represent *all other* non-floating point values and their types at runtime in dynamically typed languages.
 
+
+%%%%%%   update (04/2019)  %%%%%%
+
+I gave a lightning talk about the secret life of NaN at !!con West 2019-- it has fewer details, but more jokes; you can find a recording [here](https://www.youtube.com/watch?v=3jddE24Ep54).
+
+%%%%%%%%%%%%%%%%%%%%%%%
+
 # the non-secret life of NaN
 When I say "NaN" and also "floating point", I specifically mean the representations defined in [IEEE 754-2008](http://eng.umb.edu/~cuckov/classes/engin341/Reference/IEEE754.pdf), the ubiquitous floating point standard. This standard was born in 1985 ([with much drama!](https://people.eecs.berkeley.edu/~wkahan/ieee754status/754story.html)) out of a need for a canonical representation which would allow code to be portable by quelling the anarchy induced by the menagerie of inconsistent floating point representations used by different processors.
 
@@ -26,8 +33,8 @@ The standard defines these logarithmic-ish distributions of values with base-2 a
 Speaking of which, let's take a look at what the standard compliant representation is. Let's look at binary16, the base-2 16 bit wide format:
 
 ```
-1 sign bit | 5 exponent bits | 11 mantissa bits
-S            E E E E E         M M M M M M M M M M M
+1 sign bit | 5 exponent bits | 10 mantissa bits
+S            E E E E E         M M M M M M M M M M
 ```
 
 I won't explain how these are used to represent numeric values because I've got different fish to fry, but if you do want an explanation, I quite like [these](http://sandbox.mc.edu/~bennet/cs110/flt/index.html) nice walkthroughs.
@@ -230,11 +237,11 @@ So, putting it all together, a complete picture of the bit pattern encodings in 
 <br/>
 
 -----
-### Appendix: to NaNbox or to not NaNbox
+### Appendix: to NaNbox or not to NaNbox
 
-Looking at this implementation begs the question, is NaN-boxing a good idea or a bizzaro hack? As someone who isn't implementing or maintaining a dynamically typed language, I'm not well-posed to answer that question. There are [a lot of different approaches](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.39.4394&rep=rep1&type=pdf) and which surely all have nuanced tradeoffs that show up depending on the use-cases of your language. With that caveat, here's a rough sketch of what some pros & cons are. Pros: saves memory, all values fit in registers, bit masks are fast to apply; Cons: have to box & unbox almost all values, implementation becomes harder, and validation bugs can be serious security vulnerabilities.
+Looking at this implementation begs the question, is NaN-boxing a good idea or a bizzaro hack? As someone who isn't implementing or maintaining a dynamically typed language, I'm not well-posed to answer that question. There are [a lot of different approaches](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.39.4394&rep=rep1&type=pdf) which surely all have nuanced tradeoffs that show up depending on the use-cases of your language. With that caveat, here's a rough sketch of what some pros & cons are. Pros: saves memory, all values fit in registers, bit masks are fast to apply; Cons: have to box & unbox almost all values, implementation becomes harder, and validation bugs can be serious security vulnerabilities.
 
-For a better discussion of NaN-boxing from someone who does implement & maintain a dynamically typed language check out [this article](https://wingolog.org/archives/2011/05/18/value-representation-in-javascript-implementations).
+For a better discussion of NaN-boxing tradeoffs from someone who does implement & maintain a dynamically typed language check out [this article](https://wingolog.org/archives/2011/05/18/value-representation-in-javascript-implementations).
 
 Apart from performance, there is [this writeup](http://www.phrack.org/papers/attacking_javascript_engines.html) and [this other writeup](https://blog.xyz.is/2016/webkit-360.html) of vulnerabilities discovered in JSC. Whether these vulnerabilities would have been preventable if JSC had used a different approach for storing type information is a moot point, but there is at least one vulnerability that seems like it would have been prevented:
 
