@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "a love letter to workflow automation, and Just"
+title: "a love letter to workflow automation"
 date: 2021-09-21
 permalink: workflow-automation
 categories: computers
@@ -9,7 +9,7 @@ categories: computers
 In this blogpost I'll:
 - talk about two concepts I find very useful: **workflow** and the **dev loop**
 - argue that writing down workflows and automating them is extremely helpful for preserving and communicating knowledge about how to interact with different parts of a codebase
-- explain why I automate my workflows with Just
+- explain why I automate my workflows using a tool called Just
 
 Here is how this blogpost is organized:
 - **Section 1:** Defining workflow & dev loop, and why automating workflows is useful
