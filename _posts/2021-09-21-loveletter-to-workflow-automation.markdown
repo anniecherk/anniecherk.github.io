@@ -222,10 +222,17 @@ Action: automating your workflows is useful for a myriad of reasons. It:
 
 
 
+-------------
 
-# Appendix: Tool comparison
 
-### Just vs. Make: 
+
+# Appendix
+
+<br>
+
+## Tool comparison
+
+#### Just vs. Make: 
 I prefer Just over Make for recording workflows because:
 - in Make you'd have to make your rules [.PHONY](https://www.gnu.org/software/make/manual/html_node/Phony-Targets.html); it's clear from the sentiment of the word "phony" that Make wasn't designed to run commands in this way
 - rules can take arguments. Makefile rules can also use arguments but [it's weird](https://stackoverflow.com/questions/2214575/passing-arguments-to-make-run)
@@ -234,7 +241,7 @@ I prefer Just over Make for recording workflows because:
 
 Further, I think there's a bit of conceptual difference between a workflow and rules for running a build system, though it's a blurred distinction. I want to look in a file that I know contains workflows when I need a map for navigating codebase interactions, and I want to look in a file that contains build automation when I need to configure or change something about the build.
 
-### Just vs. shell scripts: 
+#### Just vs. shell scripts: 
 I prefer Just over a [collection of] shell scripts because:
 - all the workflows are collected in a single file
 - I can write inline python (or whatever language) with the polyglot feature
@@ -242,10 +249,10 @@ I prefer Just over a [collection of] shell scripts because:
 
 Similar to the sentiment in the comparison to Make, I think a justfile conveys a different intent than a shell script. A repository may have many scripts, possibly containing many functions: some of those scripts / functions may be intended to be invoked directly, and some may be there as helper scripts / functions. Which is which, for what purpose, and how to invoke them may not be immediately apparent. Conversely, the purpose of a justfile is consistent across codebases.
 
-**Aside: Just vs. CI runner scripts:** 
+#### Just vs. CI runner scripts:
 While they’re not the right choice for recording all your workflows, I find that CI runner scripts will often have at least some of the workflows you may be using encoded in them. If you've ever had the experience of looking through a CI runner config and learning something useful about your build or deploy process, using a justfile is like that-- but for all your interactions. Ideally CI (and all the developers on the project) would use the justfile directly, so that the workflows themselves are tested and pinned to the state / version of the repository.
 
-### Tool comparison conclusion: 
+#### Tool comparison conclusion: 
 Just is my preferred tool for workflow automation because it is a tool built specifically for the job of encoding workflows. It has some nice features like: 
 - making the workflows easily discoverable
 - chaining workflows together
