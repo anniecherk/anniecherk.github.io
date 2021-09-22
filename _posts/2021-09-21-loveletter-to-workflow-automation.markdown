@@ -19,7 +19,7 @@ Here is how this blogpost is organized:
 - **Section 5:** A pragmatic look at updating and maintaining justfiles
 - **Appendix:** Comparison of Just to other possible tools
 
-# 1: Concepts: workflow & dev loop
+# 1. Concepts: workflow & dev loop
 
 About a year ago, I became sufficiently fed up with grinding against the mental overhead of task-switching between projects that I became motivated to look for ways I could update my development practices to make this easier. I found a few techniques that helped, but the one that's had the most outsized effect on my development process, even beyond handling this specific concern, is automating my workflows. 
 
