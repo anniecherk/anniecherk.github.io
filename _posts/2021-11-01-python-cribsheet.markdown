@@ -23,6 +23,7 @@ This page is a brain-dump of the tools & libraries I reach for in python in vari
 - [docformatter](https://pypi.org/project/docformatter/): formats docstrings
 - [pyenv](https://github.com/pyenv/pyenv): manages switches between different versions of the python interpretter
 - [tox](https://tox.wiki/en/latest/index.html): test code against different python versions
+- [pythex](https://pythex.org/): online regex sandbox
 
 # Python libraries:
 - [argparse](https://docs.python.org/3/library/argparse.html): for building CLI tools which take arguments
