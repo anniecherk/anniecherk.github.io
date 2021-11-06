@@ -42,6 +42,8 @@ What kinds of commands are useful to record and automate? In my opinion, pretty 
 - install with/without developer dependencies
 - push branches to Git
 
+As another example, [here is the Justfile I wrote recently while working through advent of code](https://github.com/anniecherk/advent_of_code_2020_python/blob/main/Justfile). 
+
 The only commands I don't create workflow rules for are those which I think of as being part of the core of the tools I often use, like `git commit` or `docker ps`.
 
 Another benefit of collecting all the commands you need to run in one file is that it is more obvious how to either improve or further automate them when they are all in one file. 
