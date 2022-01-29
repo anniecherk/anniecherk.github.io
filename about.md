@@ -13,7 +13,7 @@ permalink: /about/
 
 I'm a software engineer broadly interested in systems. In the past I've also spent time thinking about security, programming langauges and machine learning.
 
-I'll be looking for a ✨new job✨ in early 2022. I'm interested in working on a large production system at scale, or a system in the process of scaling up. If you know of teams that might be a good fit, I'd love to hear from you :)
+I'm looking for a ✨new job✨! I'm interested in working on a large production system at scale, or a system in the process of scaling up. If you know of teams that might be a good fit, I'd love to hear from you :)
 
 I previously worked as a software engineer at [Galois](https://galois.com). At Galois I primarily worked on [MATE](https://galois.com/project/mate/), a program analysis platform for helping developers find security vulnerabilities in their programs.
 
@@ -24,6 +24,7 @@ Beyond my life at the keyboard, I work in clay, watercolor, oil, colored pencil,
 I attended the Recurse Center in Summer 2016, and have nothing but nice things to say about RC. If you've been thinking about applying, [you should do it](https://www.recurse.com/)!
 
 You can email me at annie.cherk@gmail.com.
+
 
 # 😟 → 🤖 →  😎
 
