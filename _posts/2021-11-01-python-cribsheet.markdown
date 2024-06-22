@@ -11,6 +11,8 @@ categories: computers
 
 This page is a brain-dump of the tools & libraries I reach for in python in various situations. It's a living document; I intend to update it as my practices drift. Perhaps you'll find something you find interesting here!
 
+See also: my [reference python repo](https://github.com/anniecherk/python-repo-template).
+
 🐍🛠️🐍🛠️🐍🛠️🐍🛠️🐍🛠️🐍🛠️🐍🛠️🐍🛠️🐍🛠️🐍🛠️
 
 # Python tooling:
