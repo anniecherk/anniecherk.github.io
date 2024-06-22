@@ -135,6 +135,17 @@ popd
 # pwd is now ~/some/obscure/and/long/path
 ```
 
+# j
+`j`, the [autojump](https://github.com/wting/autojump) command, is great for changing directories without having to remember the full path name.
+
+```bash
+# instead of
+cd ~/some/obscure/and/long/path/dir-with-a-long-name
+# you can type
+j long
+# most of the time it will jump to the right directory
+```
+
 # ctags & cscope
 If you're working in a giant c code base, you can instrument your code with `ctags` and then use your favorite editor to jump to definitions. Really really useful for tracing back what some strange data structure is.
 
