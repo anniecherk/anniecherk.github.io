@@ -6,12 +6,9 @@ permalink: on-the-brink-ai-coding
 categories: computers
 ---
 
-
-workflows for ai coding, 05/25
-
 its bananas out there.
 
-six months ago ai coding tools were take-them-or-leave-them, and now they have foundationally changed the way i work. and things are different by the week.
+six months ago ai coding tools were take-them-or-leave-them. now they have foundationally changed the way i work. and things are changing by the week.
 
 here is how i think it's worth approaching ai coding as of late may 2025:
 
@@ -22,30 +19,37 @@ here is how i think it's worth approaching ai coding as of late may 2025:
 
 there are lots of great guides on steps 0-2 of how to work with ai coding tools, like [this one](https://www.anthropic.com/engineering/claude-code-best-practices). generally i'm not trying to provide many notes on how to use these tools both because i think they'll change very quickly, and because there are already many good guides. but i provide a few ideas, briefly, below because i can't help myself.
 
+**ai coding workflows**
+
 mostly though, i want to talk about a few thoughts about step 3, *workflows* for interacting with ai tooling. 
 
 i have an embarrassing secret which is that i was/am a productivity nerd. this means i have spent a lot of time assuaging my fears about how i'm not doing enough things by thinking about how to do more things, rather than actually doing them. in retrospect, this was a bad strategy because the fear of not doing enough things was a proxy for a deeper and scarier fear of not being enough, which, coincidentally, is not something you can fix with really good todo lists.
 
 anyway, because of this, i have a lot of thoughts and opinions about todo lists, and how to take notes, and about attention and focus. a thing that interests me about ai tooling is how strongly ideas about how to organize personal workflows and notes and knowledge systems translate to workflows for working with ai coding tools.
 
-the reason i'm writing this is there are two concrete things related to all this that i want to talk about:
+**tl;dr** there are 3 things that i want to talk about:
 
-1. prompting tools these days generates 1-3 minute gaps in my workflows while it spits out code or text. there are folks in the industry already reporting letting their coding models run unattended for hours at a time, presumably that will make it's way down to all of us in the pretty near future. but, either way, with a gap of a minute to a few hours while working on a task, the way we work is going to have to change drastically. waiting is really hard. task switching is really expensive. i talk about some more thoughts and things that may help, at least for my brain.
+1. prompting tools these days generate 1-10 minute gaps in my workflows while they spit out code or text. 
 
-2. ai tooling generates a lot of code, which means i have to manage and organize a lot of code now. i thought i was good at git, but then i learned better workflows, and now i think these are foundationally important for ai coding. i talk about these workflows.
+even as this improves to hours, the way we work is going to have to change drastically. 
 
-the other reason i'm writing this is it feels to me like we are at a tipping point for what it means to do software engineering. that feels cool and exciting and important and weird to be in the middle of it. i want to write down so i remember what it feels like to be standing here, looking forward and looking back.
+waiting is really hard. task switching is really expensive. i talk about some more thoughts and things that may help, at least for my brain.
+
+2. ai tooling generates a lot of code, which means we have to manage a lot of code changes now.
+
+i thought i knew git pretty well, but after learning some better workflows, i now think that having better git workflows is going to be crucial for managing huge volumes of code changes. i talk about these workflows.
+
+3. the other reason i'm writing this is it feels to me like we are standing on the precipice between an old world and a new world. software engineering, as a craft, is changing by the moment. it feels cool and exciting and significant and weird to be in the middle of it. i want to write down so i remember what it feels like to be standing here, looking forward and looking back.
 
 
 ----------------------------------------------------------------------------------------------------------
 
-# background: a few thoughts on using ai tools well
+# background: brief thoughts on ai tool use
 
 ### 0. use the tools:
-
-- the tools work pretty well out of the box.  just try them.
-	- try claude code
-	- try roo plugin for vscode
+    - the tools work pretty well out of the box.  just try them.
+	    - try claude code
+	    - try roo plugin for vscode 
 
 ### 1. use the tools better:
 	- use better prompts, ie:
@@ -91,26 +95,29 @@ the other reason i'm writing this is it feels to me like we are at a tipping poi
 
 ----------------------------------------------------------------------------------------------------------
 
-# working with models is not ergonomic for my attention span, and what to do about 
+# human attention span 
 
-currently my ai coding tasks run for a small handful of minutes. as this gets better, maybe they'll run for an hour or several hours. now and in the future, this is a very different way of working than iterating on code in a flow state. 
+currently my ai coding tasks run for a small handful of minutes. in the near future, they will run for an hour or several hours, and that will be a worthwhile improvement. now and in the future, this is a very different way of working than iterating on code in a flow state. 
 
-so what should i do with the downtime gaps?
+so what should we do with the downtime gaps?
 
 presumably the answer is, and will increasingly need to be, work on multiple things at once.
 
-the problem is that, at least in the naive implementation, it is really painful to task switch at that granularity. at least for the way my brain works. trying to swap between tasks whenever i have a minute of downtime feels like pulse width modulation.
-
-<todo: image>
-
+the problem is that, at least in the naive implementation, it is really painful to task switch at that granularity. at least for the way my brain works. trying to swap between tasks whenever i have a minute of downtime feels like the worst kind of pulse width modulation.
+```
+task b:            _ ___    _       ____
+task a:   __|  |__|     |__|  |____|    |__
+time --> 
+```
 
 ### pair programming, by myself
 
 there is a blogpost that i have wanted to write for five years, called pair programming by myself. it's about how i take notes. i have written several drafts that i've never published because when i read them they always sound too silly-- the one sentence summary is i have found it absurdly helpful to take notes that are extremely overly detailed. i have a lot of feelings about detailed notes but i also feel ridiculous waxing on about it. so let me tell you the short version now:
 
-in mid-2020, i suddenly stopped getting much work done, in a way that's probably familiar to you. hello, pandemic. i had a to-do list of things i probably should have been doing, but my brain was laser focused on the latest scrap of info-- was everyone i loved going to get sick and die? were our supply chains going to collapse? what was happening out there?
+in mid-2020, i suddenly stopped getting much work done, in a way that's probably familiar to you. hello, pandemic. i had a todo list of things i probably should have been doing, but my brain was laser focused on the info about the world-- were we all going to die? were our supply chains going to collapse? *aside:* the doomsday book was a not a great choice of bookclub book in April 2020.
 
-and eventually in all this i had a project deadline come up, and thought i really really should get some work done. it was just impossibly hard to focus. and eventually i hacked it for myself with a ridiculously detailed todo list. it had things like:
+and eventually in i had a project deadline come up, and thought i really really should get some work done. it was just impossibly hard to focus. and eventually i hacked it for myself with a ridiculously detailed todo list. it had things like:
+```
 - open the terminal
 - cd into the project directory
 - start jupyter notebook
@@ -118,26 +125,26 @@ and eventually in all this i had a project deadline come up, and thought i reall
 - navigate to the notebook
 - run the notebook, make sure it still compiles
 - etc
+```
 
-it worked. i got my brain unstuck. i have a lot of feelings about how well this works for me, and i think this doesn't generalize to all brains and certainly not to all tasks. my notes aren't usually literally as detailed as the example above, but to give a sense of scale i write about two pages a day as i work. i still find it very helpful to separate out the planning from the flow state of doing. 
+it worked. i got my brain unstuck. i was reminded of the line from kill bill "just wiggle your big toe". i have a lot of feelings about how well this works for me, and i think this doesn't generalize to all brains and certainly not to all tasks. my notes aren't usually literally as detailed as the example above, but to give a sense of scale i write about two pages a day as i work. i still find it very helpful to separate out the planning from the flow state of doing. 
 
-*it's not about the notes, it's about the way the notes enable my thinking.* my notes enable me to extend my working memory and become better organized and oriented. i think they also let me stop mentally re-cataloging all the things i need to keep track of, which lets me focus.
+**it's not about the notes, it's about the way the notes enable my thinking.** my notes enable me to extend my working memory and become better organized and oriented. i think they also let me stop mentally re-cataloging all the things i need to keep track of, which lets me focus. i also have a lot of feeling about this, [and highly recommend reading michael nielsen's "thought as technology"](https://cognitivemedium.com/tat/).
 
-that sure sounds a lot like how running these models in architect / planning mode first gets much better results.
-
-a common division of roles in [pair programming](https://en.wikipedia.org/wiki/Pair_programming) is the driver and the navigator. the driver is the person at the keyboard. the other person is the navigator; they're responsible for having a bigger picture plan in mind and discovering the higher level strategic concerns. 
-
-i think of the process of making detailed plans as i work as pair programming by myself.
 
 ### pair programming, stuck in navigator mode
 
+a common division of roles in [pair programming](https://en.wikipedia.org/wiki/Pair_programming) is the driver and the navigator. the driver is the person at the keyboard. the other person is the navigator; they're responsible for having a bigger picture plan in mind and discovering the higher level strategic concerns. 
+
+i think of the process of making detailed plans as i work as **pair programming by myself**.
+
 i have the feeling that as our ai coding models get increasingly better at driving, we're going to be increasingly in navigator mode.
 
-(ai coding models can and do also navigate: they work better if you ask them to plan and align on their plans before they jump into coding. so really we'll be spending more time in some meta-navigation mode).
+*aside:* and ai coding models can and do also navigate: they work better if you ask them to plan and align on their plans before they jump into coding. so really we'll be spending more time in some meta-navigation mode. which probably means reasoning about what should be done and how that work should be structured.
 
 so i think then the question should be: what contexts make it easier to navigate?
 
-### pitch of a solution: consolidate navigating into a focus block
+### pitch: consolidate navigating into a focus block
 
 i suspect that an answer, for me and my brain, is to consolidate navigating.
 
@@ -145,10 +152,17 @@ specifically what im trying is writing out the steps of several tasks for the da
 
 it doesn't work all the time or for all tasks, but its better for my brain than one task at a time
 
+```
+task b:          ______   __
+task a:   _______      |__|  |__|  
+time --> 
+_ is me working
+| is ai working
+```
 
 #### aside on brains
 
-when i say that this works for my brain but may not work for yours, i do really believe that. brains are different! it blew my mind to learn that people are pretty evenly split between having an internal monologue and not having an internal monologue.
+when i say that this works for my brain but may not work for yours, i do really believe that. brains are different! it blew my mind to learn that people are pretty evenly split between having, and not having, an internal monologue. i have non-stop words in my head all the time, which seems correlated with why it's so helpful to think in writing via detailed notes.
 
 
 ----------------------------------------------------------------------------------------------------------
@@ -156,8 +170,8 @@ when i say that this works for my brain but may not work for yours, i do really 
 
 if you asked me a year ago if i was good at git, i'd say of course i'm good at git. and then one of my coworkers showed me much better workflows, and my life was much improved. 
 
-however, i think these skills are pretty foundational for working with ai coding tools
-- ai coding tools generate a lot of code quickly
+i now think these skills are pretty foundational for working with ai coding tools
+- ai coding tools generate a lot of code changes quickly
 - you have to manage all that code effectively
 - or else something will break and you wont know when where or why
 	- keep track of where the nearest exit is, keeping in mind it may be behind you
@@ -229,15 +243,13 @@ git rebase -i origin/master
 ----------------------------------------------------------------------------------------------------------
 # conclusion
 
-when ai coding tools started coming out and we saw headlines like "will coding jobs go away" i tried the tools and thought that, like most headlines, they were silly. 
+when ai coding tools started coming out and we saw headlines like "will coding jobs go away" i tried the tools and thought that, like most headlines, they were bunk. 
 
 today i no longer think that. the definition of software engineering is changing week to week right now. 
 
-i think it's a prudent time to pay attention and understand the new tools available to us, learn them, and imagine how we can leverage them. 
+i think it's a prudent time to pay attention and understand the new tools available to us, learn them, and imagine how we can leverage them. i don't think it's about getting my job done faster, i think it's about unlocking projects and possibilities that were too expensive in effort before. 
 
-and understand that that will also be completely different in another six months.
-
-it feels to me like we're in the middle of a laddering up on the tech tree, and it happens to be in the tech that is the craft that i practice. that feels extremely special and exciting. i'm reminded of the beginner's mind
+it feels to me like we're in the middle of a laddering up on the tech tree, and it happens to be in the tech that is the craft that i practice. that feels extremely special and exciting. it's a time to review our assumptions about what is possible.
 
 the two things i'm trying to remember right now, in my attempt to see the ocean from my place on the wave are:
 - go slower to go faster
