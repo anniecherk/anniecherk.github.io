@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "choosing learning over autopilot"
-date: 2025-05-28
+date: 2026-01-11
 permalink: choosing-learning-over-autopilot
 categories: computers
 ---
