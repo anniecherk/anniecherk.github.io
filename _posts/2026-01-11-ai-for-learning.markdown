@@ -20,13 +20,13 @@ The thing that scares me the most about this actually though, is an existential 
 
 And part of why this is scary to me is that even if my goal is to be principled, to learn, to engage, to satisfy my curiosity with understanding, it is really easy for me to coast with an llm and not notice. There are times when I am tired and I am distracted and I have a thing that I need to get done at work. I just want it done, because then I have another thing I need to do. There are a lot of reasons to be lazy.
 
-So I think the crux here is about **experiential learning**:
+So I think the crux here is about __experiential learning__:
 - ai tools make it so much easier to learn by doing, which can lead to much better results
 - but it's also possible to use them take a shortcut and get away without learning
     - I deeply believe that the shortcut is a trap
     - I also believe it is harder than it seems to notice and be honest about when I'm doing this
 
-And so, I've been thinking about guidelines & guardrails-- how do I approach my work to escape the curse, such that llms are **a tool for understanding, rather than a replacement for thinking**? 
+And so, I've been thinking about guidelines & guardrails-- how do I approach my work to escape the curse, such that llms are __a tool for understanding, rather than a replacement for thinking__? 
 
 Here's my current working model:
 1. use ai-tooling to learn, in loops
@@ -39,24 +39,24 @@ The rest of the blog post is a deeper look at these topics, in a way that I hope
 
 # but first, let me make this more concrete
 
-**Things I now get to care less about:**
+#### Things I now get to care less about:
 - the mechanics of figuring out how things are hooked together
 - the mechanics of translating pseudocode into code
 - figuring out what the actual code looks like
 
-**Things I cared about before and should still care about:**
+The times I'm using ai tools to disengage a problem are the times I'm doing the things in the "things I get to care about less" category to go fast and getting away with skipping doing the things in the "things I should still care about" category.
+
+#### Things I cared about before and should still care about:
 - deciding which libraries are used
 - how the code is organized: files & function signatures
 - leaving comments that explain _why_ something is set up in a way if there's complication behind it
 - leaving docs explaining how things work
 - understanding when I need to learn something more thoroughly to get unblocked
 
-**Things I now get to care about that were expensive before:**
+#### Things I now get to care about that were expensive before:
 - more deeply understanding how a system works
 - adding better observability like nicely structured outputs for debugging
 - running more experiments
-
-The times I'm using ai tools to disengage a problem are the times I'm doing the things in the "things I get to care about less" category to go fast and getting away with skipping doing the things in the "things I should still care about" category.
 
 The times when I'm using ai tools to enhance my learning and understanding I'm doing the things in the "things I should still care about" category and not taking advantage of the "things I now get to care about" category.
 
@@ -68,7 +68,7 @@ I like to work on problems somewhere in the middle of the "how correct does this
 
 Here is a sketch of a workflow I've been using for working on medium-sized problems.
 
-**Get into the problem: this is the stage to go fast, be messy, learn and get oriented**
+#### Get into the problem: this is the stage to go fast, be messy, learn and get oriented
 
 1. Research & document what I want to build
     1. I collab with the ai to dump background context and plans into a markdown file
@@ -76,14 +76,14 @@ Here is a sketch of a workflow I've been using for working on medium-sized probl
         1. What is the problem we're solving?
         1. How does it work today?
         1. How will this change be implemented?
-    1. The doc at this stage can be rough and ai slop
+    1. The doc at this stage can be rough
 1. Build a prototype
     1. The prototype can be ai slop
     1. Bias towards seeing things run & interacting with them
 1. Throw everything away. Start fresh, clean slate
     1. It will take so much longer to fix the PoC than to build it correctly next time, now that I know what all the pieces are and how they should relate.
 
-**Formulate a solution: this is the stage to figure out what the correct structure should be**
+#### Formulate a solution: this is the stage to figure out what the correct structure should be
 
 1. Research & document based on what I know from the prototype
     1. Read code, docs and readmes with my human eyes
@@ -98,7 +98,7 @@ Here is a sketch of a workflow I've been using for working on medium-sized probl
 1. Use this to compile a final draft of how to implement this iterative
 1. Commit the skeleton + the final implementation document
 
-**Implement the solution: this is the stage where I work on the final code, because I now have confidence that I know what I need to build and how I need to build it**
+#### Implement the solution: this is the stage where I work on the final code, because I now have confidence that I know what I need to build and how I need to build it
 
 1. Cut a new branch & have the ai tooling implement all the code based on the final spec
 1. If it's not a lot of code / it's very modular, review it and commit each logical piece into its own commit / PR
@@ -115,16 +115,11 @@ Now let me briefly break out the guidelines I mentioned in the intro and how the
 # learning in loops
 
 There are a lot of ways to learn what to build and how to build it, including:
-- Understanding the system
-- Understanding surrounding systems
-- Understanding observability and tooling
-- Understanding existing work in the space
-- Understanding relationships between components
-- Understanding intended use-cases and control flows
-- Understanding requirements
-- Understanding trade-offs
-- Understanding what the "minimal" implementation looks like
-- Understanding implementation details
+- Understanding the system, surrounding systems and existing work
+- Understanding the problem, the requirements & existing work in the space
+- Understanding relationships between components, intended use-cases and control flows
+- Understanding implementation details, including tradeoffs and what MVP looks like
+- Understanding how to exercise, observe and interact with the implementation
 
 I'll understand each area in a different amount of detail at different times. I'm thinking of it as learning "in loops" because I find that ai tooling lets me quickly switch between breadth and depth in various aspects in an iterative way. I find that I "understand" the problem and the solution in increasing depth and detail several times before I build it, and that leads to a much better output.
 
@@ -178,7 +173,7 @@ The only way to achieve small, modular, reviewable PRs is to be very opinionated
 
 Unless you're writing a literal prototype that will be thrown away (and you're confident it will actually be thrown away), the most expensive part about building a system is the engineering effort that will go into maintaining it. It is, therefore, very worth-while to be opinionated about how to structure the code. I find that the ai can do an okay job at throwing code out there, but I can come up with a much better division and structure by using my human brain.
 
-A time I got burned by not thinking about libraries & how to break down a problem was when I was trying to fix noisy errors due to a client chatting with a system that had some network blips. I asked an ai model to add rate limiting to the existing http client in a codebase, which it did by implementing exponential backoff itself. This isn't a very good solution, surely we don't need to do that ourselves. But I was sloppy and put up that code in a PR. I'm glad that a coworker noticed and asked, why not use the rate limiting built into the http client? That was clearly the appropriate way to solve that problem, and my sloppy code would have been more complicated to maintain in the future. I'm glad there was at least one human brain in that loop to catch my mistake.
+A time I got burned by not thinking about libraries & how to break down a problem was when I was trying to fix noisy errors due to a client chatting with a system that had some network blips. I asked an ai model to add rate limiting to the existing http client in a codebase, which it did by implementing exponential backoff itself. This isn't a very good solution, surely we don't need to do that ourselves. I didn't think this one through, and was glad a coworker with their brain on caught it in code review.
 
 
 ## i write my docs / pr descriptions / comments with my human hands
