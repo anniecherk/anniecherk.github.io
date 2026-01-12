@@ -41,7 +41,7 @@ And so, I've been thinking about guidelines & guardrails-- how do I approach my 
 
 The rest of the blog post is a deeper look at these topics, in a way that I hope is pretty concrete and grounded.
 
-# but first, let me make this more concrete
+# what tasks are different with ai tooling
 
 ### Things I now get to care less about:
 - the mechanics of figuring out how things are hooked together
