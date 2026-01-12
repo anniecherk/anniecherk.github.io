@@ -115,7 +115,7 @@ Now let me briefly break out the guidelines I mentioned in the intro and how the
 # learning in loops
 
 There are a lot of ways to learn what to build and how to build it, including:
-- Understanding the system, surrounding systems and existing work
+- Understanding the system and integrations with surround systems
 - Understanding the problem, the requirements & existing work in the space
 - Understanding relationships between components, intended use-cases and control flows
 - Understanding implementation details, including tradeoffs and what MVP looks like
