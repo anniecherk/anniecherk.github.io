@@ -48,7 +48,7 @@ The rest of the blog post is a deeper look at these topics, in a way that I hope
 - the mechanics of translating pseudocode into code
 - figuring out what the actual code looks like
 
-The times I'm using ai tools to disengage a problem are the times I'm doing the things in the "things I get to care about less" category to go fast and getting away with skipping doing the things in the "things I should still care about" category.
+The times I'm using ai tools to disengage a problem and go fast are the times I'm only doing the things in this first category and getting away with skipping doing the things in the other two.
 
 ### Things I cared about before and should still care about:
 - deciding which libraries are used
@@ -62,56 +62,57 @@ The times I'm using ai tools to disengage a problem are the times I'm doing the 
 - adding better observability like nicely structured outputs for debugging
 - running more experiments
 
-The times when I'm using ai tools to enhance my learning and understanding I'm doing the things in the "things I should still care about" category and not taking advantage of the "things I now get to care about" category.
+The times when I'm using ai tools to enhance my learning and understanding I'm doing the things in the latter two categories.
 
-I will caveat that the amount of effort and care is contextual to the problem and context. I believe that having a team move in overly conservative ways carries engineering risk. It also sucks to be on a very conservative team, I think fear can lead to micromanagement and fighting ghosts. The real key, I think, is understanding how much effort is worth investing and where.
+I will caveat that the appropriate amount of care and effort in an implementation depends, of course, on the problem and context. More is not always better. Moving slow can carry engineering risk and I know from experienced that it's possible for a team to mistake micromanagement for code quality. 
 
 I like to work on problems somewhere in the middle of the "how correct does this have to be" spectrum and so that's where my intuition is tuned to. I don't need things clean down to the bits, but how the system is built matters so care is worth the investment.
 
 # workflow
 
-Here is a sketch of a workflow I've been finding useful for working on medium-sized problems.
+Here is a workflow I've been finding useful for medium-sized problems.
 
-### Get into the problem: this is the stage to go fast, be messy, learn and get oriented
+### Get into the problem: go fast, be messy, learn and get oriented
 
 1. Research & document what I want to build
     1. I collab with the ai to dump background context and plans into a markdown file
-    1. A format that I've been using: 
-        1. What is the problem we're solving?
-        1. How does it work today?
-        1. How will this change be implemented?
-    1. The doc at this stage can be rough
+        1. The doc at this stage can be rough
+        1. A format that I've been using: 
+            1. What is the problem we're solving?
+            1. How does it work today?
+            1. How will this change be implemented?
 1. Build a prototype
     1. The prototype can be ai slop
     1. Bias towards seeing things run & interacting with them
 1. Throw everything away. Start fresh, clean slate
-    1. It will take so much longer to fix the PoC than to build it correctly next time, now that I know what all the pieces are and how they should relate.
+    1. It's much faster to build it correctly than to fix it
 
-### Formulate a solution: this is the stage to figure out what the correct structure should be
+### Formulate a solution: figure out what the correct structure should be
 
 1. Research & document based on what I know from the prototype
     1. Read code, docs and readmes with my human eyes
     1. Think carefully about the requirements & what causes complication in the code. Are those hard or flexible (or imagined!) requirements?
-1. Design what I want to build, take 2
+1. Design what I want to build, again
   1. Now would be a good time to communicate externally if that's appropriate for the scope. Write one-pager for anyone who might want to provide input. 
 1. Given any feedback, design the solution one more time, and this time polish it. Think carefully & question everything. Now is the time to use my brain.
     1. Important: what are the APIs? How is the code organized?
     1. Important: what libraries already exist that we can use?
     1. Important: what is the iterative implementation order so that the code is modular & easy to review?
-1. Implement a skeleton, see how it smells
-1. Use this to compile a final draft of how to implement this iterative
+1. Implement a skeleton, see how the code smells and adjust
+1. Use this to compile a final draft of how to implement the feature iteratively
 1. Commit the skeleton + the final implementation document
 
-### Implement the solution: this is the stage where I work on the final code, because I now have confidence that I know what I need to build and how I need to build it
+### Implement the solution: generate the final code
 
 1. Cut a new branch & have the ai tooling implement all the code based on the final spec
-1. If it's not a lot of code / it's very modular, review it and commit each logical piece into its own commit / PR
+1. If it's not a lot of code or it's very modular, review it and commit each logical piece into its own commit / PR
 1. If it is a lot of code, review it, and commit it as a reference implementation
     1. Then, rollback to the skeleton branch, and cut a fresh branch for the first logic piece that will be its own commit / PR
     1. Have the ai implement just that part, possibly guided by any ideas from seeing the full implementation
 1. For each commit, I will review the code & I'll have the ai review the code
 1. I must write my own commit messages with descriptive trailers
 
+One of the glittering things about ai tooling is that it's faster than building systems by hand. I maintain that even with these added layers of learning before implementing, it's still faster than what I could do before while giving me a richer understanding and a better result.
 
 Now let me briefly break out the guidelines I mentioned in the intro and how they relate to this workflow.
 
@@ -127,13 +128,11 @@ There are a lot of ways to learn what to build and how to build it, including:
 
 I'll understand each area in a different amount of detail at different times. I'm thinking of it as learning "in loops" because I find that ai tooling lets me quickly switch between breadth and depth in an iterative way. I find that I "understand" the problem and the solution in increasing depth and detail several times before I build it, and that leads to a much better output.
 
-One of the glittering things about ai tooling is that it's faster than building systems by hand. I maintain that even with these added layers of learning before implementing, it's still faster than what I could do before while giving me a richer understanding and a better result.
+I think there two pitfalls in these learning loops: one feeling like I'm learning when I'm actually only skimming, and the other is getting stuck limited on what the ai summaries can provide. One intuition I've been trying to build is when to go read the original sources (like code, docs, readmes) myself. I have two recent experiences top-of-mind informing this:
 
-I also want to expand on the theme that it is harder than it seems to notice when I'm being lazy. 
+In the first experience, a coworker and I were debugging a mysterious issue related to some file-related resource exhaustion. We both used ai tools to figure out what cli tools we had to investigate and to build a mental model of how the resource in question was supposed to work. I got stuck after getting output that seemed contradictory, and didn't fit my mental model. My coworker got to a similar spot and then took a step out of the ai tooling to go read the docs about the resource with their human eyes. That led them to understand that the ai summary wasn't accurate: it had missed some details that explained the confusing situation we were seeing. 
 
-I think there is a key here in knowing when to break out of gathering knowledge via ai summary, and reading the original sources myself. I have two recent experiences top-of-mind informing this:
-
-In the first experience, I was debugging a mysterious issue related to some file-related resource exhaustion for certain workloads and a coworker was debugging the same issue in parallel. We both used ai tools to figure out what cli tools we had to investigate and to build a mental model of how the resource in question was supposed to work. I got stuck after getting output that seemed contradictory, and wasn't sure how to proceed because it didn't fit the mental model I had built with the help of ai. My coworker got to a similar spot and then took a step out of the ai tooling to go read the docs about the resource with their human eyes. That led them to understand that the ai summary wasn't accurate: it had missed some details that explained the confusing situation we were seeing. This example really sticks out in my memory: I thought I was being principled rather than lazy by building my mental model of what was supposed to be happening, but I had gotten mired in building that mental model second-hand instead of reading the docs myself.
+This example really sticks out in my memory. I thought I was being principled rather than lazy by building my mental model of what was supposed to be happening, but I had gotten mired in building that mental model second-hand instead of reading the docs myself.
 
 In the second experience, I was working on a problem related to integrating with a system that had a documented interface. I had the ai read & summarize the interface and then got into the problem in a way similar to the first step of the workflow I described above. I was using that to formulate an idea of what the solution should be. Then I paused to repeat the research loop but with more care: I read the interface with my human eyes-- and found the ai summary was wrong! It wasn't a big deal and I could shift my plans, but I was glad to have learned to pause and take care in validating the details of my mental model.
 
@@ -145,24 +144,26 @@ I had a coworker describe working with ai coding tools like working on a sculptu
 The way I'm thinking about it now, it's more like: instead of building a sculpture, I'm asking it to build me a series of sculptures.
 
 The first one is rough-hewn and wonky, but lets me understand the shape of what I'm doing.
+
 The next one or two are just armatures.
+
 The next one might be a mostly functional sculpture on the latest armature; this lets me understand the shape of what I'm doing with much higher precision.
 
-And then finally, I'll ask for a sculpture, using the blessed armature, except we'll build it one part at a time. When we're done with a part, we'll seal it so we can't bump it out of alignment.
+And then finally, I'll ask for a sculpture, using the vetted armature, except we'll build it one part at a time. When we're done with a part, we'll seal it so we can't bump it out of alignment.
 
-A year ago, I wasn't sure if it was better to try to fix an early draft of ai generated code to be better, or to throw it out. Now I feel strongly that ai-generated code is not precious, and not worth the effort to fix it. It takes a long time to write code by hand. If you know what the code needs to do and have that clearly documented in detail, it takes no time at all for the ai to flesh out the code. So throw away all the earlier versions, and focus on getting the armature correct.
+A year ago, I wasn't sure if it was better to try to fix an early draft of ai generated code to be better, or to throw it out. Now I feel strongly that ai-generated code is not precious, and not worth the effort to fix it. If you know what the code needs to do and have that clearly documented in detail, it takes no time at all for the ai to flesh out the code. So throw away all the earlier versions, and focus on getting the armature correct.
  
-Making things is all about processes and doing the right thing at the right time. If you throw a bowl and that bowl is off-center, it is a nightmare to try to make it look centered with trimming. If you want a centered bowl the time at which you have the opportunity to center it is when you are throwing. Same here, if you want code that is modular and well structured, the time to do that is before you have the ai implement the logic. 
+Making things is all about processes and doing the right thing at the right time. If you throw a bowl and that bowl is off-center, it is a nightmare to try to make it look centered with trimming. If you want a centered bowl then you must throw it on-center. Same here, if you want code that is modular and well structured, the time to do that is before you have the ai implement the logic. 
 
 ## "textbook" commits and PRs
 
 It's much easier to review code that has been written in a way where a feature is broken up into an iteration of commits and PRs. This was true before ai tooling, and is true now.
 
-The difference is that, even if I aspired to this before, sometimes (often?) I'd get lost in the flow in a way that made it a huge pain, lift and effort to break apart into "textbook" commits after the fact.
+The difference is that writing code with my hands was slow and expensive. Sometimes I'd be in the flow and I'd implement things in a way that was hard to untangle after the fact. 
 
 I believe that especially if I work in the way I've been describing here, ai code is cheap. This makes it much easier/cheaper for me to break apart my work into ways that are easy to commit and review. 
 
-My other guilty hesitation is I never liked git merge conflicts and rebasing branches. It was confusing and had the scary potential of losing work. Now, ai tooling is very good at rebasing branches, so it's much less scary and pretty much no effort.
+My other guilty hesitation before ai tooling was I never liked git merge conflicts and rebasing branches. It was confusing and had the scary potential of losing work. Now, ai tooling is very good at rebasing branches, so it's much less scary and pretty much no effort.
 
 I also think that small, clean PRs are an external forcing function to working in a way that builds my understanding rather than lets me take shortcuts: if I generate 2.5k lines of ai slop, it will be a nightmare to break that into PRs.
 
