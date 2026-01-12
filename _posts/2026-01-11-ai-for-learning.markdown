@@ -6,29 +6,33 @@ permalink: choosing-learning-over-autopilot
 categories: computers
 ---
 
-I use ai coding tools a lot. I love them, I'm all-in on ai tools. They unlock doors that let me do things in a way that I cannot do with my human hands alone.
+I use ai coding tools a lot. I love them. I'm all-in on ai tools. They unlock doors that let me do things that I cannot do with my human hands alone.
 
 But they also scare me.
 
 As I see it, they offer me two paths:
 
+#### ✨ The glittering vision ✨
+
 The glittering vision is they let me build systems in the way that the version of me who is a better engineer would build them. Experimentation, iteration and communication have become cheaper. This enables me to learn by doing at a speed that was prohibitive before. I can make better decisions about what and how to build because I can try out a version and learn where some of the sharp edges are in practice instead of guessing. I can also quickly loop in others for feedback and context. All of this leads to building a better version of the system than I would have otherwise.
+
+#### ☠️ The cursed vision ☠️
 
 The cursed vision is I am lazy, and I build systems of ai slop that I do not understand. There's a lot of ink spilled about perils and pains of ai slop, especially working on a team that has to maintain the resulting code. 
 
-The thing that scares me the most about this actually though, is an existential fear that I won't learn anything if I work in the "lazy" way. There is no substitute for experiential learning, and it accumulates over time. There are things that are very hard for me to do today, and I will feel sad if all of those things feel equally hard in a year, two years, five years. I am motivated by an emotional response to problems I find interesting, and I like problems that have to do with computers. I am afraid of drowning that desire by substituting engaging a problem with semi-conscious drifting on autopilot.
+What scares me most is an existential fear that I won't learn anything if I work in the "lazy" way. There is no substitute for experiential learning, and it accumulates over time. There are things that are very hard for me to do today, and I will feel sad if all of those things feel equally hard in a year, two years, five years. I am motivated by an emotional response to problems I find interesting, and I like problems that have to do with computers. I am afraid of drowning that desire by substituting engaging a problem with semi-conscious drifting on autopilot.
 
 And part of why this is scary to me is that even if my goal is to be principled, to learn, to engage, to satisfy my curiosity with understanding, it is really easy for me to coast with an llm and not notice. There are times when I am tired and I am distracted and I have a thing that I need to get done at work. I just want it done, because then I have another thing I need to do. There are a lot of reasons to be lazy.
 
-So I think the crux here is about __experiential learning__:
+#### So I think the crux here is about experiential learning:
 - ai tools make it so much easier to learn by doing, which can lead to much better results
 - but it's also possible to use them take a shortcut and get away without learning
     - I deeply believe that the shortcut is a trap
     - I also believe it is harder than it seems to notice and be honest about when I'm doing this
 
-And so, I've been thinking about guidelines & guardrails-- how do I approach my work to escape the curse, such that llms are __a tool for understanding, rather than a replacement for thinking__? 
+And so, I've been thinking about guidelines & guardrails-- how do I approach my work to escape the curse, such that llms are *a tool for understanding, rather than a replacement for thinking*? 
 
-Here's my current working model:
+#### Here's my current working model:
 1. use ai-tooling to learn, in loops
 1. ai-generated code is cheap and not precious; throw it away and start over several times
 1. be very opinionated about how to break down a problem 
@@ -39,21 +43,21 @@ The rest of the blog post is a deeper look at these topics, in a way that I hope
 
 # but first, let me make this more concrete
 
-#### Things I now get to care less about:
+### Things I now get to care less about:
 - the mechanics of figuring out how things are hooked together
 - the mechanics of translating pseudocode into code
 - figuring out what the actual code looks like
 
 The times I'm using ai tools to disengage a problem are the times I'm doing the things in the "things I get to care about less" category to go fast and getting away with skipping doing the things in the "things I should still care about" category.
 
-#### Things I cared about before and should still care about:
+### Things I cared about before and should still care about:
 - deciding which libraries are used
 - how the code is organized: files & function signatures
 - leaving comments that explain _why_ something is set up in a way if there's complication behind it
 - leaving docs explaining how things work
 - understanding when I need to learn something more thoroughly to get unblocked
 
-#### Things I now get to care about that were expensive before:
+### Things I now get to care about that were expensive before:
 - more deeply understanding how a system works
 - adding better observability like nicely structured outputs for debugging
 - running more experiments
@@ -66,9 +70,9 @@ I like to work on problems somewhere in the middle of the "how correct does this
 
 # workflow
 
-Here is a sketch of a workflow I've been using for working on medium-sized problems.
+Here is a sketch of a workflow I've been finding useful for working on medium-sized problems.
 
-#### Get into the problem: this is the stage to go fast, be messy, learn and get oriented
+### Get into the problem: this is the stage to go fast, be messy, learn and get oriented
 
 1. Research & document what I want to build
     1. I collab with the ai to dump background context and plans into a markdown file
@@ -83,7 +87,7 @@ Here is a sketch of a workflow I've been using for working on medium-sized probl
 1. Throw everything away. Start fresh, clean slate
     1. It will take so much longer to fix the PoC than to build it correctly next time, now that I know what all the pieces are and how they should relate.
 
-#### Formulate a solution: this is the stage to figure out what the correct structure should be
+### Formulate a solution: this is the stage to figure out what the correct structure should be
 
 1. Research & document based on what I know from the prototype
     1. Read code, docs and readmes with my human eyes
@@ -98,7 +102,7 @@ Here is a sketch of a workflow I've been using for working on medium-sized probl
 1. Use this to compile a final draft of how to implement this iterative
 1. Commit the skeleton + the final implementation document
 
-#### Implement the solution: this is the stage where I work on the final code, because I now have confidence that I know what I need to build and how I need to build it
+### Implement the solution: this is the stage where I work on the final code, because I now have confidence that I know what I need to build and how I need to build it
 
 1. Cut a new branch & have the ai tooling implement all the code based on the final spec
 1. If it's not a lot of code / it's very modular, review it and commit each logical piece into its own commit / PR
@@ -118,10 +122,10 @@ There are a lot of ways to learn what to build and how to build it, including:
 - Understanding the system and integrations with surround systems
 - Understanding the problem, the requirements & existing work in the space
 - Understanding relationships between components, intended use-cases and control flows
-- Understanding implementation details, including tradeoffs and what MVP looks like
+- Understanding implementation details, including tradeoffs and what a MVP looks like
 - Understanding how to exercise, observe and interact with the implementation
 
-I'll understand each area in a different amount of detail at different times. I'm thinking of it as learning "in loops" because I find that ai tooling lets me quickly switch between breadth and depth in various aspects in an iterative way. I find that I "understand" the problem and the solution in increasing depth and detail several times before I build it, and that leads to a much better output.
+I'll understand each area in a different amount of detail at different times. I'm thinking of it as learning "in loops" because I find that ai tooling lets me quickly switch between breadth and depth in an iterative way. I find that I "understand" the problem and the solution in increasing depth and detail several times before I build it, and that leads to a much better output.
 
 One of the glittering things about ai tooling is that it's faster than building systems by hand. I maintain that even with these added layers of learning before implementing, it's still faster than what I could do before while giving me a richer understanding and a better result.
 
