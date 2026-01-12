@@ -178,10 +178,10 @@ The only way to achieve small, modular, reviewable PRs is to be very opinionated
 
 Unless you're writing a literal prototype that will be thrown away (and you're confident it will actually be thrown away), the most expensive part about building a system is the engineering effort that will go into maintaining it. It is, therefore, very worth-while to be opinionated about how to structure the code. I find that the ai can do an okay job at throwing code out there, but I can come up with a much better division and structure by using my human brain.
 
-A time I got burned by not thinking about libraries & how to break down a problem was when I was trying to fix noisy errors due to a client chatting with a system that had some network blips. I asked an ai model to add rate limiting to the existing http client in a codebase, which it did by implementing exponential backoff itself. This isn't a very good solution, surely we don't need to do that ourselves. I didn't think this one through, and was glad a coworker with their brain on caught it in code review.
+A time I got burned by not thinking about libraries & how to break down a problem was when I was trying to fix noisy errors due to a client chatting with a system that had some network blips. I asked an ai model to add rate limiting to an existing http client, which it did by implementing exponential backoff itself. This isn't a very good solution, surely we don't need to do that ourselves. I didn't think this one through, and was glad a coworker with their brain on caught it in code review.
 
 
-## i write my docs / pr descriptions / comments with my human hands
+## i write docs & pr descriptions with my human hands
 
 Writing can serve a few distinct purposes: one is communication, and distinct from that, one is as [a method to facilitate thinking](https://notes.andymatuschak.org/Evergreen_notes). The act of writing forces me to organize and refine my thoughts.
 
