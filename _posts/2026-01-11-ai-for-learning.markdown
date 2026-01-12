@@ -148,7 +148,7 @@ And then finally, I'll ask for a sculpture, using the blessed armature, except w
 
 A year ago, I wasn't sure if it was better to try to fix an early draft of ai generated code to be better, or to throw it out. Now I feel strongly that ai-generated code is not precious, and not worth the effort to fix it. It takes a long time to write code by hand. If you know what the code needs to do and have that clearly documented in detail, it takes no time at all for the ai to flesh out the code. So throw away all the earlier versions, and focus on getting the armature correct.
  
-Making things is all about processes and doing the right thing at the right time. If you throw a bowl and that bowl is off-center, it is a nightmare to try to make it look centered with trimming. If you want a centered bowl the time at which you have the opportunity to center it is when you are throwing. Same here, if you want code that is modular and well structured, th~e time to do that is before you have the ai implement the logic. 
+Making things is all about processes and doing the right thing at the right time. If you throw a bowl and that bowl is off-center, it is a nightmare to try to make it look centered with trimming. If you want a centered bowl the time at which you have the opportunity to center it is when you are throwing. Same here, if you want code that is modular and well structured, the time to do that is before you have the ai implement the logic. 
 
 ## "textbook" commits and PRs
 
